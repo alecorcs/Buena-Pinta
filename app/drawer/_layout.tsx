@@ -7,7 +7,7 @@ const DrawerLayout = () => {
         <Drawer
             drawerContent={CustomDrawer}
             screenOptions={{
-                headerShown: false,
+                headerShown: true,
                 headerShadowVisible: false,
                 sceneStyle: {
                     backgroundColor: 'white',
@@ -19,9 +19,9 @@ const DrawerLayout = () => {
                 },
             }}>
             <Drawer.Screen
-                name=""
+                name="beers/index"
                 options={{
-                    drawerLabel: 'beers/index',
+                    drawerLabel: 'Beers',
                     title: 'Beers',
                     drawerIcon: ({ color, size }) => (
                         <Ionicons
