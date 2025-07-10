@@ -1,7 +1,6 @@
 import CustomDrawer from '@/components/CustomDrawer';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Drawer } from 'expo-router/drawer';
-
 const DrawerLayout = () => {
     return (
         <Drawer
@@ -9,6 +8,7 @@ const DrawerLayout = () => {
             screenOptions={{
                 headerShown: true,
                 headerShadowVisible: false,
+                headerTitleAlign: 'center',
                 sceneStyle: {
                     backgroundColor: 'white',
                 },
@@ -49,8 +49,8 @@ const DrawerLayout = () => {
             <Drawer.Screen
                 name="user/index"
                 options={{
-                    drawerLabel: 'Schedule',
-                    title: 'Schedule',
+                    drawerLabel: 'Profile',
+                    title: 'Profile',
                     drawerIcon: ({ color, size }) => (
                         <Ionicons
                             name="person-circle-outline"
