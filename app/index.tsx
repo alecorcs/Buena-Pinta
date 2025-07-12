@@ -1,10 +1,11 @@
-import { router } from 'expo-router'; // Import the useRouter hook from expo-router
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'; // Import the signInWithEmailAndPassword function
+import { addUser } from '@/db/beerAppDB';
+import { router } from 'expo-router';
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { auth } from '../FirebaseConfig'; // Import the auth object from FirebaseConfig
+import { auth } from '../FirebaseConfig';
 
 const SessionScreen = () => {
     const [email, setEmail] = useState<string>('');
@@ -13,7 +14,7 @@ const SessionScreen = () => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
           if (user) {
-            router.replace('./drawer');
+            router.replace('./beers');
           }
         });
         return () => unsubscribe();
@@ -22,7 +23,7 @@ const SessionScreen = () => {
     const handleLogin = async () => {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            if (userCredential) router.replace('./drawer');
+            if (userCredential) router.replace('./beers');
         } catch (error) {
             console.error("Login error:", error);
             alert("Login failed. Please check your credentials.");
@@ -32,7 +33,19 @@ const SessionScreen = () => {
     const handleRegister = async () => {
         try {
             const createCredential = await createUserWithEmailAndPassword(auth, email, password);
-            if (createCredential) router.replace('./drawer');
+            if(createCredential) {
+            if (!auth.currentUser) {
+              throw new Error("User not found after registration.");
+            }
+            const user = {
+              uid: auth.currentUser.uid,
+              email: email,
+            }
+            await addUser({
+              ...user,
+            });
+            router.replace('./beers');
+          }
         } catch (error) {
             console.error("Registration error:", error);
             alert("Registration failed. Please try again.");

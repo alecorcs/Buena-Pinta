@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "BeerApp",
-    "slug": "BeerApp",
+    "name": "Buena Pinta",
+    "slug": "buena-pinta",
     "version": "1.0.0",
     "orientation": "portrait",
-    "scheme": "beerapp",
+    "scheme": "buena-pinta",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
