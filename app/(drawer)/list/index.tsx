@@ -1,12 +1,15 @@
 import { Search } from '@/components/Search';
 import { Drawer } from 'expo-router/drawer';
-import React from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native';
 
-const index = () => {
+const List = () => {
+    const [searchQuery, setSearchQuery] = useState<string>('');
+
     const { headerRight, headerTitle } = Search(
         {
             iconName: "albums-outline",
+            onSearchChange: setSearchQuery,
         }
     );
 
@@ -23,4 +26,4 @@ const index = () => {
 };
 
 
-export default index
+export default List;
