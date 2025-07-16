@@ -2,6 +2,7 @@ import { addBeer, addImage } from '@/db/beerAppDB';
 import { Beer, beerTypes } from '@/types/type';
 import { pickImage } from '@/utils/pickImage';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import Slider from '@react-native-community/slider';
 import { Picker } from '@react-native-picker/picker';
 import { useRouter } from 'expo-router';
 import Drawer from 'expo-router/drawer';
@@ -19,24 +20,25 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 
-const ratings = [1, 2, 3, 4, 5];
+//const ratings = [1, 2, 3, 4, 5];
 
 const NewBeers = () => {
+  const [value, setValue] = useState(0);
   const router = useRouter();
 
   const goBack = () => {
-  if (router.canGoBack()) {
-    router.back();
-  }else {
-    router.replace('./beers');
-  }
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.replace('./beers');
+    }
   };
 
   const [form, setForm] = useState<Partial<Beer>>({
     name: '',
     types: 'Lager',
     country: '',
-    alcoholContent: 0,
+    alcoholContent: '0',
     description: '',
     imageUrl: '',
     rating: 3,
@@ -48,49 +50,49 @@ const NewBeers = () => {
 
 
   const pickImageHandler = () => {
-  Alert.alert(
-    'Seleccionar imagen',
-    '¿Cómo quieres añadir la imagen?',
-    [
-      {
-        text: 'Desde la cámara',
-        onPress: async () => {
-          const selectedUri = await pickImage('camera');
-          if (selectedUri) {
-            const imageUrl = await addImage(selectedUri);
-            if (imageUrl) {
-              handleChange('imageUrl', imageUrl);
-            } else {
-              Alert.alert('Error', 'No se pudo subir la imagen.');
+    Alert.alert(
+      'Seleccionar imagen',
+      '¿Cómo quieres añadir la imagen?',
+      [
+        {
+          text: 'Desde la cámara',
+          onPress: async () => {
+            const selectedUri = await pickImage('camera');
+            if (selectedUri) {
+              const imageUrl = await addImage(selectedUri);
+              if (imageUrl) {
+                handleChange('imageUrl', imageUrl);
+              } else {
+                Alert.alert('Error', 'No se pudo subir la imagen.');
+              }
             }
-          }
+          },
         },
-      },
-      {
-        text: 'Desde galería',
-        onPress: async () => {
-          const selectedUri = await pickImage('gallery');
-          if (selectedUri) {
-            const imageUrl = await addImage(selectedUri);
-            if (imageUrl) {
-              handleChange('imageUrl', imageUrl);
-            } else {
-              Alert.alert('Error', 'No se pudo subir la imagen.');
+        {
+          text: 'Desde galería',
+          onPress: async () => {
+            const selectedUri = await pickImage('gallery');
+            if (selectedUri) {
+              const imageUrl = await addImage(selectedUri);
+              if (imageUrl) {
+                handleChange('imageUrl', imageUrl);
+              } else {
+                Alert.alert('Error', 'No se pudo subir la imagen.');
+              }
             }
-          }
+          },
         },
-      },
-      {
-        text: 'Cancelar',
-        style: 'cancel',
-      },
-    ],
-    { cancelable: true }
-  );
-};
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+      ],
+      { cancelable: true }
+    );
+  };
 
 
-   const handleSubmit = async () => {
+  const handleSubmit = async () => {
     if (!form.name || !form.types || !form.description || !form.rating || !form.imageUrl) {
       Alert.alert('Error', 'Por favor, completa todos los campos obligatorios.');
       return;
@@ -99,6 +101,15 @@ const NewBeers = () => {
     try {
       await addBeer(form as Beer);
       Alert.alert('Cerveza añadida', 'Tu cerveza ha sido guardada con éxito');
+      setForm({
+        name: '',
+        types: 'Lager',
+        country: '',
+        alcoholContent: '0',
+        description: '',
+        imageUrl: '',
+        rating: 3,
+      });
       router.back();
     } catch (error) {
       Alert.alert('Error', 'No se pudo guardar la cerveza.');
@@ -151,9 +162,9 @@ const NewBeers = () => {
         <TextInput
           className="border p-2 rounded bg-gray-100"
           keyboardType="decimal-pad"
-          value={form.alcoholContent?.toString()}
-            onChangeText={(text) =>
-            handleChange('alcoholContent', parseFloat(text.replace(',', '.')) || 0)
+          value={form.alcoholContent}
+          onChangeText={(text) =>
+            handleChange('alcoholContent', text)
           }
         />
 
@@ -166,30 +177,37 @@ const NewBeers = () => {
         />
 
         <Text className="text-sm mt-3">Valoración cervecera</Text>
-        <View className="border rounded bg-gray-100">
-          <Picker
-            selectedValue={form.rating}
-            onValueChange={(value) => handleChange('rating', value)}
-          >
-            {ratings.map(r => (
-              <Picker.Item label={`${r}`} value={r} key={r} />
-            ))}
-          </Picker>
+        <View className="h-20 items-center border rounded bg-gray-100 px-4 justify-center">
+          <Text className="mb-2 text-xl font-bold text-gray-700">{value}/5</Text>
+          <Slider
+            style={{ width: '100%', height: 40 }}
+            minimumValue={0}
+            maximumValue={5}
+            step={1}
+            minimumTrackTintColor="#4ade80"
+            maximumTrackTintColor="#d1d5db"
+            thumbTintColor="#10b981"
+            value={value}
+            onValueChange={(val) => {
+              setValue(val);
+              handleChange('rating', val);
+            }}
+          />
         </View>
 
         <Pressable
-            className="mt-6 p-4 bg-gray-200 rounded items-center"
-            onPress={pickImageHandler}
-            >
-            <Ionicons name="image-outline" size={24} color="black" />
-            <Text>Seleccionar imagen (opcional)</Text>
+          className="mt-6 p-4 bg-gray-200 rounded items-center"
+          onPress={pickImageHandler}
+        >
+          <Ionicons name="image-outline" size={24} color="black" />
+          <Text>Seleccionar imagen (opcional)</Text>
         </Pressable>
         {form.imageUrl ? (
-        <Image
+          <Image
             source={{ uri: form.imageUrl }}
             className="w-full h-48 mt-4 rounded"
             resizeMode="cover"
-        />
+          />
         ) : null}
 
         <Pressable

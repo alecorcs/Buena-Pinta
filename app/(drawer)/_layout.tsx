@@ -67,7 +67,15 @@ const DrawerLayout = () => {
                     title: 'Nueva Cerveza',
                     drawerItemStyle: { height: 0 }
                 }}
-                />
+            />
+            <Drawer.Screen
+                name="list/newList"
+                options={{
+                    drawerLabel: () => null,
+                    title: 'Nueva Lista',
+                    drawerItemStyle: { height: 0 }
+                }}
+            />
         </Drawer>
     )
 }

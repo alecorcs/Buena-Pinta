@@ -1,20 +1,27 @@
 export type User = {
-    uid: string;
-    email: string;
-    Name?: string;
-    photoURL?: string;
+  uid: string;
+  email: string;
+  Name?: string;
+  photoURL?: string;
 };
 
 export type Beer = {
-    id: string;
-    userId: string;
-    name: string;
-    types: BeerTypes;
-    country: string;
-    alcoholContent: number;
-    description: string;
-    imageUrl: string;
-    rating: 1 | 2 | 3 | 4 | 5;
+  id: string;
+  userId: string;
+  name: string;
+  types: BeerTypes;
+  country: string;
+  alcoholContent: string;
+  description: string;
+  imageUrl: string;
+  rating: 1 | 2 | 3 | 4 | 5;
+};
+
+export type BeerList = {
+  id: string;
+  userId: string;
+  name: string;
+  beers?: Beer[];
 };
 
 export const beerTypes = [
