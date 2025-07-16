@@ -36,7 +36,7 @@ const Lists = ({ list }: listProps) => {
                         style={{
                             width: width,
                             height: 350,
-                            justifyContent: 'flex-start',
+                            justifyContent: 'center',
                             alignItems: 'center',
                         }}
                     />
