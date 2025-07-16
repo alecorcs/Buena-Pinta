@@ -6,26 +6,44 @@ import { Beer } from '@/types/type';
 import { router, useFocusEffect } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList, SafeAreaView } from 'react-native';
+import { FlatList, NativeScrollEvent, NativeSyntheticEvent, SafeAreaView } from 'react-native';
 
-const Beers = () => {
-    const [beers, setBeers] = useState <Beer[] | null> (null);
+const BeersScreen = () => {
+    const [beers, setBeers] = useState<Beer[] | null>(null);
     const [searchQuery, setSearchQuery] = useState<string>('');
+    const [headerVisible, setHeaderVisible] = useState(true);
+    const [isRefreshing, setIsRefreshing] = useState(false);
 
-  
-  const loadBeers = useCallback(async () => {
+    const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+        const offset = e.nativeEvent.contentOffset.y;
+        setHeaderVisible(offset < 50);
+    };
+
+
+    const loadBeers = useCallback(async () => {
         const result = await fetchBeers(searchQuery);
         setBeers(result);
     }, [searchQuery]);
+
+    const refreshBeers = useCallback(async () => {
+        try {
+            setIsRefreshing(true);
+            await loadBeers();
+        } catch (error) {
+            console.error('Error refreshing beers:', error);
+        } finally {
+            setIsRefreshing(false);
+        }
+    }, [loadBeers]);
 
     useEffect(() => {
         loadBeers();
     }, [loadBeers]);
 
     useFocusEffect(() => {
-       loadBeers();
+        loadBeers();
     });
-    
+
 
 
 
@@ -33,6 +51,7 @@ const Beers = () => {
         {
             iconName: "beer-outline",
             onSearchChange: setSearchQuery,
+            headerVisible,
         }
     );
 
@@ -51,8 +70,14 @@ const Beers = () => {
                     <BeerCard
                         beer={item}
                         onPress={() => console.log("Tapped", item.name)}
+                        screen="beerScreen"
                     />
                 )}
+                numColumns={3}
+                contentContainerStyle={{ paddingBottom: 80, paddingTop: 8 }}
+                onScroll={onScroll}
+                onRefresh={refreshBeers}
+                refreshing={isRefreshing}
             />
 
             <FloatButton onPress={() => {
@@ -62,4 +87,4 @@ const Beers = () => {
     );
 };
 
-export default Beers;
+export default BeersScreen;
