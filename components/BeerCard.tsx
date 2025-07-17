@@ -13,7 +13,6 @@ type BeerCardProps = {
 export const BeerCard = ({ beer, onPress, screen }: BeerCardProps) => {
   const [showOptions, setShowOptions] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  //className="relative flex-1 max-w-[32%] h-48 m-1 overflow-hidden rounded-xl bg-white shadow-sm
   return (
     <>
       <Pressable
