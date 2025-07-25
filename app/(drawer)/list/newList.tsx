@@ -1,17 +1,17 @@
 import { addList } from '@/db/beerAppDB'
 import { BeerList } from '@/types/type'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { router } from 'expo-router'
+import { useRouter } from 'expo-router'
 import Drawer from 'expo-router/drawer'
 import React, { useState } from 'react'
-import { Alert, Pressable, SafeAreaView, Text, TextInput, View } from 'react-native'
+import { Alert, SafeAreaView, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native'
 
 const NewListScreen = () => {
 
-
+    const router = useRouter();
     const goBack = () => {
         if (router.canGoBack()) {
-            router.navigate('/list');
+            router.push('/list');
         }
     };
 
@@ -45,9 +45,9 @@ const NewListScreen = () => {
             <Drawer.Screen
                 options={{
                     headerLeft: () => (
-                        <Pressable onPress={goBack}>
-                            <Ionicons className='ml-4' name="arrow-back" size={24} color="black" />
-                        </Pressable>
+                        <TouchableWithoutFeedback onPress={goBack}>
+                            <Ionicons className='ml-4 active:opacity-40' name="chevron-back-outline" size={24} color="black" />
+                        </TouchableWithoutFeedback>
                     ),
                 }}
             />
@@ -60,12 +60,12 @@ const NewListScreen = () => {
                     value={form.name}
                     onChangeText={(text) => handleChange('name', text)}
                 />
-                <Pressable
-                    className="mt-6 bg-black p-4 rounded items-center"
+                <TouchableWithoutFeedback
+                    className="mt-6 bg-black active:opacity-80 p-4 rounded items-center"
                     onPress={handleSubmit}
                 >
                     <Text className="text-white font-bold">Guardar Lista</Text>
-                </Pressable>
+                </TouchableWithoutFeedback>
             </View>
         </SafeAreaView>
     )

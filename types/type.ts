@@ -1,8 +1,9 @@
 export type User = {
   uid: string;
   email: string;
-  Name?: string;
+  name?: string;
   photoURL?: string;
+  imageBack?: string;
 };
 
 export type Beer = {
