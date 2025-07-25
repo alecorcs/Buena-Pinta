@@ -11,6 +11,12 @@ type listProps = {
 }
 const Lists = ({ list }: listProps) => {
     const { width } = useWindowDimensions()
+
+    const getNumColumns = () => {
+        if (width < 400) return 2;
+        if (width < 768) return 3;
+        return 4;
+    };
     return (
         <SafeAreaView>
             <View className='mt-2'>
@@ -23,8 +29,13 @@ const Lists = ({ list }: listProps) => {
                     <Carousel
                         data={list.beers}
                         renderItem={
-                            ({ item }: { item: Beer }) => <BeerCard beer={item} onPress={() => { console.log("Tapped", item.name) }} screen="listScreen"
-                            />}
+                            ({ item }: { item: Beer }) => (
+                                <BeerCard
+                                    beer={item}
+                                    onPress={() => { console.log("Tapped", item.name) }}
+                                    screen="listScreen"
+                                    cardWidth={(width - 32) / getNumColumns() - 8}
+                                />)}
                         width={200}
                         height={350}
                         mode='parallax'

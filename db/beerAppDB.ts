@@ -1,6 +1,6 @@
 import { Beer, BeerList, User } from "@/types/type";
 import { getAuth } from "firebase/auth";
-import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { db, storage } from "../FirebaseConfig";
 
@@ -14,27 +14,23 @@ import { db, storage } from "../FirebaseConfig";
 //Create operation
 
 /**
- *  Adds a new user to the Firestore database.
+ * Adds a new user to Firestore using the UID as document ID.
  * @param {User} user - The user object to be added.
  * @returns {Promise<void>} A promise that resolves when the user is added.
- * @throws Will throw an error if the user object is not provided.
  */
 export const addUser = async (user: User): Promise<void> => {
-
-    if (!user) {
-        return;
+    if (!user || !user.uid) {
+        throw new Error("User or UID is missing");
     }
+
     try {
-        const userCollection = collection(db, "users");
-        await addDoc(userCollection, {
-            ...user
-        });
-        return Promise.resolve();
+        const userDocRef = doc(db, "users", user.uid);
+        await setDoc(userDocRef, user);
     } catch (error) {
-        console.error("No se ha podido añadir el usuario a la BD, error: ", error)
+        console.error("No se ha podido añadir el usuario a la BD, error: ", error);
+        throw error;
     }
-
-}
+};
 
 /**
  * Adds a new beer to the Firestore database.
@@ -131,11 +127,13 @@ export const fetchUser = async (uid: string): Promise<User | null> => {
 
     const auth = getAuth();
     const user = auth.currentUser;
-    if (!user || user.uid !== uid) {
+    if (!user) {
         return null;
     }
-    const userDoc = await getDocs(query(collection(db, "users"), where("uid", "==", uid)));
-    return userDoc.empty ? null : (userDoc.docs[0].data() as User);
+    const userRef = doc(db, "users", uid);
+    const userSnap = await getDoc(userRef);
+
+    return userSnap.exists() ? (userSnap.data() as User) : null;
 };
 
 /**
@@ -205,28 +203,13 @@ export const fetchLists = async (queryParam: string): Promise<BeerList[]> => {
 //Update operation
 /**
  * Updates a user in the Firestore database.
- * @param {User} user - The user object to be updated.
+ * @param {uid data} user - The user object to be updated.
  * @returns {Promise<void>} A promise that resolves when the user is updated.
  * @throws Will throw an error if the user object is not provided.
  */
-export const updateUser = async (userUpdate: User): Promise<void> => {
-
-    const auth = getAuth();
-    const user = auth.currentUser;
-    if (!userUpdate) {
-        return;
-    }
-
-    if (!user || user.uid !== userUpdate.uid) {
-        return;
-    }
-
-    const userDoc = doc(db, "users", userUpdate.uid);
-    await updateDoc(userDoc, {
-        ...userUpdate
-    });
-
-    return Promise.resolve();
+export const updateUser = async (uid: string, data: Partial<User>): Promise<void> => {
+    const userRef = doc(db, 'users', uid);
+    await updateDoc(userRef, data);
 };
 
 /**

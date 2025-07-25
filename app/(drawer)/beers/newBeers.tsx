@@ -1,6 +1,6 @@
-import { addBeer, addImage } from '@/db/beerAppDB';
+import { addBeer } from '@/db/beerAppDB';
 import { Beer, beerTypes } from '@/types/type';
-import { pickImage } from '@/utils/pickImage';
+import { launchImageFlow } from '@/utils/alertPickImage';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Slider from '@react-native-community/slider';
 import { Picker } from '@react-native-picker/picker';
@@ -10,11 +10,12 @@ import React, { useState } from 'react';
 import {
   Alert,
   Image,
-  Pressable,
   ScrollView,
   Text,
   TextInput,
-  View,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -23,16 +24,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 //const ratings = [1, 2, 3, 4, 5];
 
 const NewBeers = () => {
+
+
   const [value, setValue] = useState(0);
   const router = useRouter();
 
-  const goBack = () => {
-    if (router.canGoBack()) {
-      router.back();
-    } else {
-      router.replace('./beers');
-    }
-  };
 
   const [form, setForm] = useState<Partial<Beer>>({
     name: '',
@@ -50,45 +46,9 @@ const NewBeers = () => {
 
 
   const pickImageHandler = () => {
-    Alert.alert(
-      'Seleccionar imagen',
-      '¿Cómo quieres añadir la imagen?',
-      [
-        {
-          text: 'Desde la cámara',
-          onPress: async () => {
-            const selectedUri = await pickImage('camera');
-            if (selectedUri) {
-              const imageUrl = await addImage(selectedUri);
-              if (imageUrl) {
-                handleChange('imageUrl', imageUrl);
-              } else {
-                Alert.alert('Error', 'No se pudo subir la imagen.');
-              }
-            }
-          },
-        },
-        {
-          text: 'Desde galería',
-          onPress: async () => {
-            const selectedUri = await pickImage('gallery');
-            if (selectedUri) {
-              const imageUrl = await addImage(selectedUri);
-              if (imageUrl) {
-                handleChange('imageUrl', imageUrl);
-              } else {
-                Alert.alert('Error', 'No se pudo subir la imagen.');
-              }
-            }
-          },
-        },
-        {
-          text: 'Cancelar',
-          style: 'cancel',
-        },
-      ],
-      { cancelable: true }
-    );
+    launchImageFlow((url) => {
+      handleChange('imageUrl', url);
+    }, false);
   };
 
 
@@ -122,9 +82,9 @@ const NewBeers = () => {
       <Drawer.Screen
         options={{
           headerLeft: () => (
-            <Pressable onPress={goBack}>
-              <Ionicons className='ml-4' name="arrow-back" size={24} color="black" />
-            </Pressable>
+            <TouchableWithoutFeedback onPress={() => router.back()}>
+              <Ionicons className='ml-4 active:opacity-40' name="chevron-back-outline" size={24} color="black" />
+            </TouchableWithoutFeedback>
           ),
         }}
       />
@@ -195,13 +155,13 @@ const NewBeers = () => {
           />
         </View>
 
-        <Pressable
-          className="mt-6 p-4 bg-gray-200 rounded items-center"
+        <TouchableOpacity
+          className="mt-6 p-4 bg-gray-200 active:opacity-80 rounded items-center"
           onPress={pickImageHandler}
         >
           <Ionicons name="image-outline" size={24} color="black" />
           <Text>Seleccionar imagen (opcional)</Text>
-        </Pressable>
+        </TouchableOpacity>
         {form.imageUrl ? (
           <Image
             source={{ uri: form.imageUrl }}
@@ -210,12 +170,12 @@ const NewBeers = () => {
           />
         ) : null}
 
-        <Pressable
-          className="mt-6 bg-black p-4 rounded items-center"
+        <TouchableOpacity
+          className="mt-6 bg-black active:opacity-80 p-4 rounded items-center"
           onPress={handleSubmit}
         >
           <Text className="text-white font-bold">Guardar cerveza</Text>
-        </Pressable>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );

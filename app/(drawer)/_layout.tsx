@@ -76,6 +76,14 @@ const DrawerLayout = () => {
                     drawerItemStyle: { height: 0 }
                 }}
             />
+            <Drawer.Screen
+                name="user/editProfile"
+                options={{
+                    drawerLabel: () => null,
+                    title: 'Editar Perfil',
+                    drawerItemStyle: { height: 0 }
+                }}
+            />
         </Drawer>
     )
 }

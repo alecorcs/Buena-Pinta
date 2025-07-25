@@ -39,8 +39,8 @@ export const Search = ({ iconName, onSearchChange, headerVisible }: SearchProps)
         headerRight: () =>
             headerVisible ? (
                 <Pressable
-                    style={{ marginRight: 16 }}
                     onPress={() => setSearchVisible(!searchVisible)}
+                    className='mr-4 active:opacity-80'
                 >
                     <Ionicons
                         name={searchVisible ? 'close-outline' : 'search-outline'}

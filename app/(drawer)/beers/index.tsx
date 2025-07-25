@@ -1,18 +1,18 @@
-import { BeerCard } from '@/components/BeerCard';
 import { FloatButton } from '@/components/Floatbuttom';
 import { Search } from '@/components/Search';
+import ShowBeersScreen from '@/components/ShowBeers';
 import { fetchBeers } from '@/db/beerAppDB';
 import { Beer } from '@/types/type';
 import { router, useFocusEffect } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList, NativeScrollEvent, NativeSyntheticEvent, SafeAreaView } from 'react-native';
+import { NativeScrollEvent, NativeSyntheticEvent, SafeAreaView } from 'react-native';
 
 const BeersScreen = () => {
     const [beers, setBeers] = useState<Beer[] | null>(null);
     const [searchQuery, setSearchQuery] = useState<string>('');
-    const [headerVisible, setHeaderVisible] = useState(true);
-    const [isRefreshing, setIsRefreshing] = useState(false);
+    const [headerVisible, setHeaderVisible] = useState<boolean>(true);
+    const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
     const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
         const offset = e.nativeEvent.contentOffset.y;
@@ -63,22 +63,7 @@ const BeersScreen = () => {
                     headerTitle,
                 }}
             />
-            <FlatList
-                data={beers || []}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                    <BeerCard
-                        beer={item}
-                        onPress={() => console.log("Tapped", item.name)}
-                        screen="beerScreen"
-                    />
-                )}
-                numColumns={3}
-                contentContainerStyle={{ paddingBottom: 80, paddingTop: 8 }}
-                onScroll={onScroll}
-                onRefresh={refreshBeers}
-                refreshing={isRefreshing}
-            />
+            <ShowBeersScreen showList={beers} isRefreshing={isRefreshing} onScroll={onScroll} refresh={refreshBeers} />
 
             <FloatButton onPress={() => {
                 router.push('./beers/newBeers');
