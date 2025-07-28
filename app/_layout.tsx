@@ -1,5 +1,6 @@
 
 import { useFonts } from 'expo-font';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Slot } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -18,8 +19,15 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <StatusBar style="auto" />
-      <Slot />
+      <LinearGradient
+        colors={['#FFD700', '#FFA500']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={{ flex: 1 }}
+      >
+        <StatusBar style="light" />
+        <Slot />
+      </LinearGradient>
     </GestureHandlerRootView>
   );
 }

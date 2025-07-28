@@ -1,5 +1,5 @@
+import { BeerList } from '@/constants/type'
 import { addList } from '@/db/beerAppDB'
-import { BeerList } from '@/types/type'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useRouter } from 'expo-router'
 import Drawer from 'expo-router/drawer'

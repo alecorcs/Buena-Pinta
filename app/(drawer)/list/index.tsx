@@ -1,18 +1,23 @@
 import { FloatButton } from '@/components/Floatbuttom';
 import Lists from '@/components/Lists';
 import { Search } from '@/components/Search';
-import { fetchLists } from '@/db/beerAppDB';
-import { BeerList } from '@/types/type';
+import { BeerList } from '@/constants/type';
+import { fetchListsByUser } from '@/db/beerAppDB';
 import { router, useFocusEffect } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
-import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList, NativeScrollEvent, NativeSyntheticEvent, SafeAreaView } from 'react-native';
+import LottieView from 'lottie-react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { FlatList, NativeScrollEvent, NativeSyntheticEvent, SafeAreaView, View } from 'react-native';
 
 const ListScreen = () => {
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [lists, setLists] = useState<BeerList[] | null>(null);
     const [headerVisible, setHeaderVisible] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
+    const [isLoading, setLoading] = useState<boolean>(false)
+
+
+    const isMountedRef = useRef(false);
 
     const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
         const offset = e.nativeEvent.contentOffset.y;
@@ -20,28 +25,36 @@ const ListScreen = () => {
     };
 
     const loadLists = useCallback(async () => {
-        const result = await fetchLists(searchQuery);
+        const result = await fetchListsByUser(searchQuery);
         setLists(result);
     }, [searchQuery]);
 
     const refreshLists = useCallback(async () => {
-        try {
-            setIsRefreshing(true);
-            await loadLists();
-        } catch (error) {
-            console.error('Error refreshing beers:', error);
-        } finally {
-            setIsRefreshing(false);
-        }
+        setIsRefreshing(true);
+        await loadLists();
+        setIsRefreshing(false);
     }, [loadLists]);
 
     useEffect(() => {
-        loadLists();
+        const loadData = async () => {
+            setLoading(true);
+            const waitMinimum = new Promise((resolve) => setTimeout(resolve, 2000));
+            const listsPromise = loadLists();
+            await Promise.all([waitMinimum, listsPromise]);
+            setLoading(false);
+        }
+        loadData();
     }, [loadLists]);
 
-    useFocusEffect(() => {
-        loadLists();
-    });
+    useFocusEffect(
+        useCallback(() => {
+            if (isMountedRef.current) {
+                loadLists();
+            } else {
+                isMountedRef.current = true;
+            }
+        }, [loadLists])
+    );
 
     const { headerRight, headerTitle } = Search(
         {
@@ -53,28 +66,42 @@ const ListScreen = () => {
     );
 
     return (
-        <SafeAreaView className="flex-1 bg-white">
+        <SafeAreaView className="flex-1">
             <Drawer.Screen
                 options={{
                     headerRight,
                     headerTitle,
                 }}
             />
-            <FlatList
-                data={lists || []}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                    <Lists
-                        list={item}
+            {isLoading ? (
+                <View className="flex-1 items-center justify-center">
+                    <LottieView
+                        source={require('@/assets/animation/loading-beer.json')}
+                        loop
+                        autoPlay
+                        style={{ width: 200, height: 200 }}
                     />
-                )}
-                onScroll={onScroll}
-                onRefresh={refreshLists}
-                refreshing={isRefreshing}
-            />
-            <FloatButton onPress={() => {
-                router.push('./list/newList');
-            }} iconName="add-outline" />
+                </View>
+            ) : (
+                <>
+                    <FlatList
+                        data={lists || []}
+                        keyExtractor={(item) => item.id}
+                        renderItem={({ item }) => (
+                            <Lists
+                                list={item}
+                            />
+                        )}
+                        onScroll={onScroll}
+                        onRefresh={refreshLists}
+                        refreshing={isRefreshing}
+                    />
+                    <FloatButton onPress={() => {
+                        router.push('./list/newList');
+                    }} iconName="add-outline" />
+                </>
+            )}
+
         </SafeAreaView>
     );
 };

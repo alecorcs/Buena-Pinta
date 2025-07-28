@@ -1,4 +1,4 @@
-import { Beer } from '@/types/type';
+import { Beer } from '@/constants/type';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
@@ -26,7 +26,7 @@ export const BeerCard = ({ beer, onPress, screen, cardWidth }: BeerCardProps & {
             source={
               beer.imageUrl
                 ? { uri: beer.imageUrl }
-                : require('@/assets/beer-placeholder.jpg')
+                : require('@/assets/images/beer-placeholder.jpg')
             }
             className="w-full h-full shadow-lg rounded-2xl"
             style={{

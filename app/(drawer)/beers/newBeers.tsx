@@ -1,5 +1,5 @@
+import { Beer, beerTypes } from '@/constants/type';
 import { addBeer } from '@/db/beerAppDB';
-import { Beer, beerTypes } from '@/types/type';
 import { launchImageFlow } from '@/utils/alertPickImage';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Slider from '@react-native-community/slider';

@@ -77,10 +77,24 @@ const DrawerLayout = () => {
                 }}
             />
             <Drawer.Screen
+                name="list/[listID]"
+                options={{
+                    drawerLabel: () => null,
+                    drawerItemStyle: { height: 0 }
+                }}
+            />
+            <Drawer.Screen
                 name="user/editProfile"
                 options={{
                     drawerLabel: () => null,
                     title: 'Editar Perfil',
+                    drawerItemStyle: { height: 0 }
+                }}
+            />
+            <Drawer.Screen
+                name="beers/[beerID]"
+                options={{
+                    drawerLabel: () => null,
                     drawerItemStyle: { height: 0 }
                 }}
             />

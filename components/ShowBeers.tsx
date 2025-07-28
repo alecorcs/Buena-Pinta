@@ -1,4 +1,4 @@
-import { Beer } from '@/types/type'
+import { Beer } from '@/constants/type'
 import React from 'react'
 import { FlatList, NativeScrollEvent, NativeSyntheticEvent, useWindowDimensions } from 'react-native'
 import { BeerCard } from './BeerCard'
@@ -42,4 +42,4 @@ const ShowBeersScreen = ({ showList, isRefreshing, onScroll, refresh }: showBeer
     )
 }
 
-export default ShowBeersScreen
+export default React.memo(ShowBeersScreen)

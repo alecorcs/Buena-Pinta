@@ -1,6 +1,7 @@
-import { Beer, BeerList } from '@/types/type';
+import { Beer, BeerList } from '@/constants/type';
+import { Link } from 'expo-router';
 import React from 'react';
-import { SafeAreaView, Text, useWindowDimensions, View } from 'react-native';
+import { SafeAreaView, useWindowDimensions, View } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import { BeerCard } from './BeerCard';
 import { DefaultBeerCard } from './DefaultBeerCard';
@@ -17,12 +18,15 @@ const Lists = ({ list }: listProps) => {
         if (width < 768) return 3;
         return 4;
     };
+
     return (
         <SafeAreaView>
             <View className='mt-2'>
-                <Text className='text-3xl font-bold px-4 mb-2'>
-                    {list.name}
-                </Text>
+                {list && (
+                    <Link href={`/(drawer)/list/${list.id}`} className='text-3xl font-bold px-4 mb-2'>
+                        {list.name}
+                    </Link>
+                )}
             </View>
             {list.beers && list.beers.length > 0 ? (
                 <View className='w-full h-60'>
@@ -59,4 +63,4 @@ const Lists = ({ list }: listProps) => {
     )
 }
 
-export default Lists
+export default React.memo(Lists);

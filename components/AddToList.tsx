@@ -1,5 +1,5 @@
+import { Beer, BeerList } from '@/constants/type';
 import { fetchLists, updateList } from '@/db/beerAppDB';
-import { Beer, BeerList } from '@/types/type';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useEffect, useState } from 'react';
 import { FlatList, Modal, Text, TouchableOpacity, View } from 'react-native';

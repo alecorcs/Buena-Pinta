@@ -1,4 +1,4 @@
-import { Beer, BeerList, User } from "@/types/type";
+import { Beer, BeerList, User } from "@/constants/type";
 import { getAuth } from "firebase/auth";
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -141,7 +141,7 @@ export const fetchUser = async (uid: string): Promise<User | null> => {
  * @param {string} queryParam - The search query to filter beers.
  * @returns {Promise<Beer[]>} A promise that resolves to an array of beers.
  */
-export const fetchBeers = async (queryParam: string): Promise<Beer[]> => {
+export const fetchBeersByUser = async (queryParam: string): Promise<Beer[]> => {
 
     const auth = getAuth();
     const user = auth.currentUser;
@@ -176,7 +176,7 @@ export const fetchBeers = async (queryParam: string): Promise<Beer[]> => {
  * @returns {Promise<BeerList[]>} A promise that resolves to an array of beer names.
  */
 
-export const fetchLists = async (queryParam: string): Promise<BeerList[]> => {
+export const fetchListsByUser = async (queryParam: string): Promise<BeerList[]> => {
 
     const auth = getAuth();
     const user = auth.currentUser;
@@ -198,6 +198,17 @@ export const fetchLists = async (queryParam: string): Promise<BeerList[]> => {
 
     return allLists
         .filter(list => list.name.toLowerCase().includes(queryLower))
+}
+
+export const fetchList = async (id: string): Promise<BeerList | null> => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user) {
+        const listRef = doc(db, "lists", id);
+        const listSnap = await getDoc(listRef);
+        return listSnap.exists() ? (listSnap.data() as BeerList) : null;
+    } else return null
+
 }
 
 //Update operation

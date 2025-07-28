@@ -1,15 +1,16 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { useState } from 'react';
-import { Pressable, TextInput, View } from 'react-native';
+import { Pressable, Text, TextInput, View } from 'react-native';
 
 type SearchProps = {
-    iconName: React.ComponentProps<typeof Ionicons>['name'];
+    iconName?: React.ComponentProps<typeof Ionicons>['name'];
     onSearchChange: (text: string) => void;
     headerVisible?: boolean;
+    title?: string;
 };
 
 
-export const Search = ({ iconName, onSearchChange, headerVisible }: SearchProps) => {
+export const Search = ({ iconName, onSearchChange, headerVisible, title }: SearchProps) => {
     const [searchVisible, setSearchVisible] = useState(false);
     const [searchText, setSearchText] = useState('');
 
@@ -29,10 +30,15 @@ export const Search = ({ iconName, onSearchChange, headerVisible }: SearchProps)
                         className="bg-gray-200 rounded-[10px] px-4 py-2 w-64"
                         autoFocus
                     />
-                ) : (
+                ) : (iconName ? (
                     <View>
                         <Ionicons name={iconName} size={20} color="black" />
                     </View>
+                ) : (
+                    <View>
+                        <Text className="text-lg font-semibold">{title}</Text>
+                    </View>
+                )
                 )
             ) : null,
 
