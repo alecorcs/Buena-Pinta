@@ -137,6 +137,25 @@ export const fetchUser = async (uid: string): Promise<User | null> => {
 };
 
 /**
+ * Fetches a beer from the Firestore database by its ID.
+ * @param {string} beerId - The ID of the beer to be fetched.
+ * @returns {Promise<Beer | null>} A promise that resolves to the beer object or null if not found.
+ */
+export const fetchBeer = async (beerId: string): Promise<Beer | null> => {
+
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) {
+        return null;
+    }
+    const beerRef = doc(db, "beers", beerId);
+    const beerSnap = await getDoc(beerRef);
+
+    return beerSnap.exists() ? (beerSnap.data() as Beer) : null;
+
+}
+
+/**
  * Fetches beers from the Firestore database based on a search query.
  * @param {string} queryParam - The search query to filter beers.
  * @returns {Promise<Beer[]>} A promise that resolves to an array of beers.

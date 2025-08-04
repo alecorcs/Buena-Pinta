@@ -7,6 +7,7 @@ export type User = {
 };
 
 export type Beer = {
+  genres: any;
   id: string;
   userId: string;
   name: string;
