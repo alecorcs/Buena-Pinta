@@ -36,7 +36,6 @@ const Lists = ({ list }: listProps) => {
                             ({ item }: { item: Beer }) => (
                                 <BeerCard
                                     beer={item}
-                                    onPress={() => { console.log("Tapped", item.name) }}
                                     screen="listScreen"
                                     cardWidth={(width - 32) / getNumColumns() - 8}
                                 />)}

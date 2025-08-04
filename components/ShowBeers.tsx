@@ -27,7 +27,6 @@ const ShowBeersScreen = ({ showList, isRefreshing, onScroll, refresh }: showBeer
                 renderItem={({ item }) => (
                     <BeerCard
                         beer={item}
-                        onPress={() => console.log("Tapped", item.name)}
                         screen="beerScreen"
                         cardWidth={(width - 32) / getNumColumns() - 8}
                     />

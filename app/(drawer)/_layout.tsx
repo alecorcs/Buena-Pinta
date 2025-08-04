@@ -95,7 +95,8 @@ const DrawerLayout = () => {
                 name="beers/[beerID]"
                 options={{
                     drawerLabel: () => null,
-                    drawerItemStyle: { height: 0 }
+                    drawerItemStyle: { height: 0 },
+                    headerShown: false,
                 }}
             />
         </Drawer>

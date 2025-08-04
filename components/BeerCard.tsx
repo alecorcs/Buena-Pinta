@@ -1,22 +1,24 @@
 import { Beer } from '@/constants/type';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { AddToListModal } from './AddToList';
 
 type BeerCardProps = {
   beer: Beer;
-  onPress?: () => void;
   screen: "listScreen" | "beerScreen"
 };
 
-export const BeerCard = ({ beer, onPress, screen, cardWidth }: BeerCardProps & { cardWidth: number }) => {
+export const BeerCard = ({ beer, screen, cardWidth }: BeerCardProps & { cardWidth: number }) => {
   const [showOptions, setShowOptions] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   return (
     <>
       <TouchableOpacity
-        onPress={onPress}
+        onPress={() => {
+          router.push(`/beers/${beer.id}`)
+        }}
         className={'active:opacity-90 px-1 mb-3 ml-4 '}
         style={{ width: cardWidth }}
       >
