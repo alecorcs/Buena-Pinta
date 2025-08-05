@@ -1,20 +1,17 @@
 # Buena Pinta
 App to manage your favourite beer list 
 
-# Portafolio de Alejandro Corral
+# Portafolio – Alejandro Corral
 
-Este repositorio muestra un proyecto desarrollado con fines educativos y como parte de mi portafolio profesional.
+Repositorio con proyectos desarrollados con fines educativos y de portafolio profesional.
 
-## 💡 Uso permitido
+---
 
-Podés ver, estudiar y usar el código para tus propios fines personales o de aprendizaje, siempre y cuando me menciones como autor/a.
+> **Aviso de uso**
+>
+> Este código puede ser consultado y reutilizado con fines personales o de aprendizaje, siempre con mención al autor.  
+> No se permite su redistribución ni uso comercial sin autorización.
+>
+> Contacto: lexcor1995@gmail.com
 
-## 🚫 Uso no permitido
-
-- No está permitido redistribuir el código (ni el original ni versiones modificadas).
-- No se puede usar en proyectos comerciales sin mi permiso.
-
-## 📬 Contacto
-
-Para consultas o colaboración profesional: lexcor1995@gmail.com
 
