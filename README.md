@@ -1,8 +1,6 @@
 # Buena Pinta
 App to manage your favourite beer list 
 
-# Portafolio – Alejandro Corral
-
 Repositorio con proyectos desarrollados con fines educativos y de portafolio profesional.
 
 ---
