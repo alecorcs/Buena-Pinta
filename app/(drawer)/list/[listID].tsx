@@ -2,6 +2,7 @@ import { Search } from '@/components/Search';
 import ShowBeersScreen from '@/components/ShowBeers';
 import { Beer, BeerList } from '@/constants/type';
 import { fetchList } from '@/db/beerAppDB';
+import { useThemeColor } from '@/hooks/useColorScheme';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import Drawer from 'expo-router/drawer';
@@ -21,6 +22,8 @@ const ListSelectedScreen = () => {
     //useLocalSearchParams is a hook that allows you to access the search params of the current route
     //${item.id} on href={`./list/${item.id}`}
     const { listID } = useLocalSearchParams();
+
+    const { isDarkView, isDarkIcon } = useThemeColor();
 
     const isMountedRef = useRef(false);
     const loadList = useCallback(async () => {
@@ -99,11 +102,15 @@ const ListSelectedScreen = () => {
                 options={{
                     headerLeft: () => (
                         <TouchableWithoutFeedback onPress={() => router.navigate('/(drawer)/list')}>
-                            <Ionicons className='ml-4 active:opacity-40' name="chevron-back-outline" size={24} color="black" />
+                            <Ionicons className='ml-4 active:opacity-40' name="chevron-back-outline" size={24} color={isDarkIcon}/>
                         </TouchableWithoutFeedback>
                     ),
                     headerRight,
                     headerTitle,
+                    headerStyle: {
+                        backgroundColor: isDarkView
+                    },
+
                 }} />
             {isLoading ? (
                 <View className="flex-1 items-center justify-center">

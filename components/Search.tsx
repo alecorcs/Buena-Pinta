@@ -1,7 +1,8 @@
 import { useThemeColor } from '@/hooks/useColorScheme';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { useState } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { Pressable, TextInput, View } from 'react-native';
+import ThemedText from './presentation/ThemedText';
 
 type SearchProps = {
     iconName?: React.ComponentProps<typeof Ionicons>['name'];
@@ -40,7 +41,7 @@ export const Search = ({ iconName, onSearchChange, headerVisible, title }: Searc
                     </View>
                 ) : (
                     <View>
-                        <Text className="text-lg font-semibold">{title}</Text>
+                        <ThemedText className="text-xl font-bold">{title}</ThemedText>
                     </View>
                 )
                 )
