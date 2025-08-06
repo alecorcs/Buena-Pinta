@@ -1,3 +1,4 @@
+import { useThemeColor } from '@/hooks/useColorScheme';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -13,6 +14,7 @@ interface BeerHeaderProps {
 const BeerHeader = ({ poster, title, originally }: BeerHeaderProps) => {
     const { height } = useWindowDimensions()
 
+    const { isDarkIcon } = useThemeColor();
     return (
         <>
             <LinearGradient
@@ -34,7 +36,7 @@ const BeerHeader = ({ poster, title, originally }: BeerHeaderProps) => {
                 }}>
                 <Pressable
                     onPress={() => router.back()}>
-                    <Ionicons name="arrow-back" size={30} color="white" className='shadow' />
+                    <Ionicons name="arrow-back" size={30} color={isDarkIcon} className='shadow' />
                 </Pressable>
             </View>
             <View style={{ height: height * 0.7 }}
@@ -46,9 +48,9 @@ const BeerHeader = ({ poster, title, originally }: BeerHeaderProps) => {
                         className='flex-1'
                     />
                 </View>
-                <View className='px-4'>
-                    <Text className='font-bold text-2xl'>{title}</Text>
-                    <Text className='text-lg text-gray-600 mt-2'>{originally}</Text>
+                <View className='px-4 mt-2 bg-light-background dark:bg-dark-background'>
+                    <Text className='font-bold text-2xl text-light-text dark:text-dark-text'>{title}</Text>
+                    <Text className='text-lg text-light-text dark:text-dark-text mt-2'>{originally}</Text>
                 </View>
             </View>
         </>

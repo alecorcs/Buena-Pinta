@@ -1,15 +1,16 @@
 import { addUser } from '@/db/beerAppDB';
+import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { auth } from '../FirebaseConfig';
 
 const SessionScreen = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -57,8 +58,13 @@ const SessionScreen = () => {
     }
   }
   return (
-    <SafeAreaView className="flex-1 justify-center items-center px-6">
-      <View className="w-full max-w-md">
+    <LinearGradient
+      colors={['#FFD700', '#FFA500']}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      className='flex-1 w-full h-full justify-center items-center'
+    >
+      <View className="w-full h-full px-6 max-w-md">
         <Image
           source={require('@/assets/images/login-image.png')}
           className='w-full h-56 mb-11' />
@@ -98,7 +104,7 @@ const SessionScreen = () => {
           <Text className="text-white text-center font-semibold">Register</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </LinearGradient>
   );
 }
 

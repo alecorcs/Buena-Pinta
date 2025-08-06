@@ -1,3 +1,4 @@
+import { useThemeColor } from '@/hooks/useColorScheme';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
@@ -11,6 +12,9 @@ type SearchProps = {
 
 
 export const Search = ({ iconName, onSearchChange, headerVisible, title }: SearchProps) => {
+
+    const { isDarkIcon } = useThemeColor();
+
     const [searchVisible, setSearchVisible] = useState(false);
     const [searchText, setSearchText] = useState('');
 
@@ -32,7 +36,7 @@ export const Search = ({ iconName, onSearchChange, headerVisible, title }: Searc
                     />
                 ) : (iconName ? (
                     <View>
-                        <Ionicons name={iconName} size={20} color="black" />
+                        <Ionicons name={iconName} size={20} color={isDarkIcon} />
                     </View>
                 ) : (
                     <View>
@@ -51,7 +55,7 @@ export const Search = ({ iconName, onSearchChange, headerVisible, title }: Searc
                     <Ionicons
                         name={searchVisible ? 'close-outline' : 'search-outline'}
                         size={24}
-                        color="black"
+                        color={isDarkIcon}
                     />
                 </Pressable>
             ) : null,
