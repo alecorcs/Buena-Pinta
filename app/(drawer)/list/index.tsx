@@ -3,6 +3,7 @@ import Lists from '@/components/Lists';
 import { Search } from '@/components/Search';
 import { BeerList } from '@/constants/type';
 import { fetchListsByUser } from '@/db/beerAppDB';
+import { useThemeColor } from '@/hooks/useColorScheme';
 import { router, useFocusEffect } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
 import LottieView from 'lottie-react-native';
@@ -16,6 +17,7 @@ const ListScreen = () => {
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [isLoading, setLoading] = useState<boolean>(false)
 
+    const { isDarkView } = useThemeColor();
 
     const isMountedRef = useRef(false);
 
@@ -71,6 +73,9 @@ const ListScreen = () => {
                 options={{
                     headerRight,
                     headerTitle,
+                    headerStyle: {
+                        backgroundColor: isDarkView
+                    },
                 }}
             />
             {isLoading ? (

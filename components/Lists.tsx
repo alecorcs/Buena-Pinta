@@ -23,7 +23,7 @@ const Lists = ({ list }: listProps) => {
         <SafeAreaView>
             <View className='mt-2'>
                 {list && (
-                    <Link href={`/(drawer)/list/${list.id}`} className='text-3xl font-bold px-4 mb-2'>
+                    <Link href={`/(drawer)/list/${list.id}`} className='text-light-text dark:text-dark-text text-3xl font-bold px-4 mb-2'>
                         {list.name}
                     </Link>
                 )}

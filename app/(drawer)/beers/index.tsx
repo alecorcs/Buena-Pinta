@@ -3,6 +3,7 @@ import { Search } from '@/components/Search';
 import ShowBeersScreen from '@/components/ShowBeers';
 import { Beer } from '@/constants/type';
 import { fetchBeersByUser } from '@/db/beerAppDB';
+import { useThemeColor } from '@/hooks/useColorScheme';
 import { router, useFocusEffect } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -16,6 +17,8 @@ const BeersScreen = () => {
     const [headerVisible, setHeaderVisible] = useState<boolean>(true);
     const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
     const [isLoading, setLoading] = useState<boolean>(false)
+
+    const { isDarkView } = useThemeColor();
 
     const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
         const offset = e.nativeEvent.contentOffset.y;
@@ -74,11 +77,14 @@ const BeersScreen = () => {
                 options={{
                     headerRight,
                     headerTitle,
+                    headerStyle: {
+                        backgroundColor: isDarkView
+                    },
                 }}
             />
             <SafeAreaView className="flex-1">
                 {isLoading ? (
-                    <View className="flex-1 items-center justify-center">
+                    <View className="flex-1 items-center justify-center bg-light-background dark:bg-dark-background">
                         <LottieView
                             source={require('@/assets/animation/loading-beer.json')}
                             loop

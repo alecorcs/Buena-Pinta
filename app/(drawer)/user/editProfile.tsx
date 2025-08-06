@@ -1,11 +1,13 @@
+import Headers from '@/components/presentation/Headers';
+import ThemedText from '@/components/presentation/ThemedText';
 import { fetchUser, updateUser } from '@/db/beerAppDB';
 import { launchImageFlow } from '@/utils/alertPickImage';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
-import Drawer from 'expo-router/drawer';
 import { getAuth } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
-import { Alert, Image, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { Alert, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const EditProfileScreen = () => {
     const [name, setName] = useState<string>('');
@@ -52,28 +54,20 @@ const EditProfileScreen = () => {
     };
 
     return (
-        <View className="flex-1 p-4 bg-white">
-            <Drawer.Screen
-                options={{
-                    headerLeft: () => (
-                        <TouchableWithoutFeedback onPress={() => router.navigate('/(drawer)/user')}>
-                            <Ionicons className='ml-4 active:opacity-40' name="chevron-back-outline" size={24} color="black" />
-                        </TouchableWithoutFeedback>
-                    ),
-                }}
-            />
-            <Text className="mb-2 font-semibold">Nombre</Text>
+        <ScrollView className="flex-1 p-4 bg-light-background dark:bg-dark-background py-10">
+            <Headers onPress={() => router.back()} title='Editar Perfil' />
+            <ThemedText className="mb-2 font-semibold">Nombre</ThemedText>
             <TextInput
-                className="border p-2 rounded mb-4"
+                className="border p-2 rounded mb-4 bg-light-defaultBeerCard dark:bg-dark-defaultBeerCard text-light-text dark:text-dark-text"
                 value={name}
                 onChangeText={setName}
             />
             <TouchableOpacity
-                className="mt-6 p-4 bg-gray-200 active:opacity-40 rounded items-center mb-5"
+                className="mt-6 p-4 bg-light-primary dark:bg-dark-primary active:opacity-40 rounded items-center mb-5"
                 onPress={pickImageHandler}
             >
-                <Ionicons name="image-outline" size={24} color="black" />
-                <Text>Imagen de perfil</Text>
+                <Ionicons name="image-outline" size={24} color='white' />
+                <Text className='text-white'>Imagen de perfil</Text>
             </TouchableOpacity>
             <View className="mt-4 space-y-4">
                 {/* Portada */}
@@ -102,7 +96,7 @@ const EditProfileScreen = () => {
             >
                 <Text className="text-white font-semibold">Guardar</Text>
             </TouchableOpacity>
-        </View>
+        </ScrollView>
     );
 };
 

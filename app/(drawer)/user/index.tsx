@@ -1,6 +1,7 @@
 import ModalDeveloper from '@/components/ModalDeveloper'
 import { User } from '@/constants/type'
 import { fetchBeersByUser, fetchListsByUser, fetchUser } from '@/db/beerAppDB'
+import { useThemeColor } from '@/hooks/useColorScheme'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { router, useFocusEffect } from 'expo-router'
 import Drawer from 'expo-router/drawer'
@@ -8,7 +9,6 @@ import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
 import LottieView from 'lottie-react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
-
 const ProfileScreen = () => {
     const [user, setUser] = useState<User | null>(null)
 
@@ -17,6 +17,8 @@ const ProfileScreen = () => {
     const [totalBeers, setTotalBeers] = useState<number>(0);
     const [totalList, setTotalList] = useState<number>(0);
     const [isLoading, setLoading] = useState<boolean>(false)
+
+    const { isDarkIcon, isDarkView } = useThemeColor();
 
     const auth = getAuth();
     const userLog = auth.currentUser
@@ -67,11 +69,15 @@ const ProfileScreen = () => {
         <>
             <Drawer.Screen
                 options={{
-                    headerRight: () =>
+                    headerRight: () => (
                         <View>
-                            <Ionicons name="information-circle-outline" size={22} color="black" className='mr-2 active:opacity-40'
+                            <Ionicons name="information-circle-outline" size={22} color={isDarkIcon} className='mr-2 active:opacity-40'
                                 onPress={() => setModalDevelopVisible(true)} />
                         </View>
+                    ),
+                    headerStyle: {
+                        backgroundColor: isDarkView
+                    },
                 }}
             />
             {isLoading ? (
@@ -85,7 +91,7 @@ const ProfileScreen = () => {
                 </View>
             ) : (
                 <>
-                    < View className='flex'>
+                    <View className='flex-1'>
                         <View className='relative w-full h-48'>
                             <Image
                                 className='w-full h-full'
@@ -112,33 +118,34 @@ const ProfileScreen = () => {
                         </View>
                         <View className='relative w-full mt-4 items-center'>
                             {user?.name === undefined ? (
-                                <Text className='text-lg font-semibold color-slate-500'>Nombre</Text>
+                                <Text className='text-lg font-semibold text-light-text dark:text-dark-text'>Nombre</Text>
                             ) : (
-                                <Text className='text-lg font-semibold color-slate-500'>{user?.name}</Text>
+                                <Text className='text-lg font-semibold text-light-text dark:text-dark-text'>{user?.name}</Text>
                             )}
 
-                            <Text className='text-lg font-semibold color-slate-500'>{user?.email}</Text>
-                        </View>
-                    </View >
-                    < View className="flex-row w-full h-20 justify-between px-6 mt-2 mb-2" >
-                        <View className="flex-1 bg-white border border-blue-200 rounded-2xl mr-2 shadow-md items-center justify-center">
-                            <Text className="text-gray-500 text-sm">Cervezas probadas</Text>
-                            <Text className="text-xl font-semibold text-blue-600">{totalBeers}</Text>
+                            <Text className='text-lg font-semibold text-light-text dark:text-dark-text'>{user?.email}</Text>
                         </View>
 
-                        <View className="flex-1 bg-white border border-blue-200 rounded-2xl ml-2 shadow-md items-center justify-center">
-                            <Text className="text-gray-500 text-sm">Listas</Text>
-                            <Text className="text-xl font-semibold text-blue-600">{totalList}</Text>
+                        < View className="flex-row w-full h-20 justify-between px-6 mt-2 mb-2" >
+                            <View className="flex-1 bg-light-defaultBeerCard dark:bg-dark-defaultBeerCard border border-blue-200 rounded-2xl mr-2 shadow-md items-center justify-center">
+                                <Text className="text-light-text dark:text-dark-text text-sm">Cervezas probadas</Text>
+                                <Text className="text-xl font-semibold text-light-primary dark:text-dark-primary">{totalBeers}</Text>
+                            </View>
+
+                            <View className="flex-1 bg-light-defaultBeerCard dark:bg-dark-defaultBeerCard border border-blue-200 rounded-2xl ml-2 shadow-md items-center justify-center">
+                                <Text className="text-light-text dark:text-dark-text text-sm">Listas</Text>
+                                <Text className="text-xl font-semibold text-light-primary dark:text-dark-primary">{totalList}</Text>
+                            </View>
+                        </View >
+                        <View className="flex-1 bg-light-background dark:bg-dark-background items-center">
+                            <TouchableOpacity
+                                onPress={() => signOut(auth)}
+                                className="bg-light-primary dark:bg-dark-primary flex-row items-center justify-center px-4 h-10 rounded-2xl mt-6 shadow-md active:opacity-70"
+                            >
+                                <Text className="text-light-text dark:text-dark-text text-base font-medium">Cerrar sesión</Text>
+                            </TouchableOpacity>
                         </View>
                     </View >
-                    <View className="flex-1 bg-white items-center">
-                        <TouchableOpacity
-                            onPress={() => signOut(auth)}
-                            className="bg-blue-600 flex-row items-center justify-center px-4 h-10 rounded-2xl mt-6 shadow-md active:opacity-70"
-                        >
-                            <Text className="text-white text-base font-medium">Cerrar sesión</Text>
-                        </TouchableOpacity>
-                    </View>
 
 
                     <ModalDeveloper

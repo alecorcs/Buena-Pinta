@@ -1,3 +1,5 @@
+import Headers from '@/components/presentation/Headers';
+import ThemedText from '@/components/presentation/ThemedText';
 import { Beer, beerTypes } from '@/constants/type';
 import { addBeer } from '@/db/beerAppDB';
 import { launchImageFlow } from '@/utils/alertPickImage';
@@ -5,7 +7,6 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import Slider from '@react-native-community/slider';
 import { Picker } from '@react-native-picker/picker';
 import { useRouter } from 'expo-router';
-import Drawer from 'expo-router/drawer';
 import React, { useState } from 'react';
 import {
   Alert,
@@ -14,7 +15,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -78,29 +78,20 @@ const NewBeers = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white p-4">
-      <Drawer.Screen
-        options={{
-          headerLeft: () => (
-            <TouchableWithoutFeedback onPress={() => router.back()}>
-              <Ionicons className='ml-4 active:opacity-40' name="chevron-back-outline" size={24} color="black" />
-            </TouchableWithoutFeedback>
-          ),
-        }}
-      />
+    <SafeAreaView className="flex-1 p-4">
       <ScrollView showsVerticalScrollIndicator={false}>
+        <Headers onPress={() => router.back()} title= 'Nueva cerveza' />
+        <ThemedText className="text-xl font-bold mb-2">Añadir nueva cerveza</ThemedText>
 
-        <Text className="text-xl font-bold mb-2">Añadir nueva cerveza</Text>
-
-        <Text className="text-sm mt-3">Nombre</Text>
+        <ThemedText className="text-sm mt-3">Nombre</ThemedText>
         <TextInput
-          className="border p-2 rounded bg-gray-100"
+          className="border p-2 rounded bg-light-defaultBeerCard dark:bg-dark-defaultBeerCard text-light-text dark:text-dark-text"
           value={form.name}
           onChangeText={(text) => handleChange('name', text)}
         />
 
-        <Text className="text-sm mt-3">Tipo</Text>
-        <View className="border rounded bg-gray-100">
+        <ThemedText className="text-sm mt-3">Tipo</ThemedText>
+        <View className="border rounded bg-light-defaultBeerCard dark:bg-dark-defaultBeerCard">
           <Picker
             selectedValue={form.types}
             onValueChange={(value) => handleChange('types', value)}
@@ -111,16 +102,16 @@ const NewBeers = () => {
           </Picker>
         </View>
 
-        <Text className="text-sm mt-3">País</Text>
+        <ThemedText className="text-sm mt-3">País</ThemedText>
         <TextInput
-          className="border p-2 rounded bg-gray-100"
+          className="border p-2 rounded bg-light-defaultBeerCard dark:bg-dark-defaultBeerCard text-light-text dark:text-dark-text"
           value={form.country}
           onChangeText={(text) => handleChange('country', text)}
         />
 
-        <Text className="text-sm mt-3">Alcohol (%)</Text>
+        <ThemedText className="text-sm mt-3">Alcohol (%)</ThemedText>
         <TextInput
-          className="border p-2 rounded bg-gray-100"
+          className="border p-2 rounded bg-light-defaultBeerCard dark:bg-dark-defaultBeerCard text-light-text dark:text-dark-text"
           keyboardType="decimal-pad"
           value={form.alcoholContent}
           onChangeText={(text) =>
@@ -128,17 +119,17 @@ const NewBeers = () => {
           }
         />
 
-        <Text className="text-sm mt-3">Descripción</Text>
+        <ThemedText className="text-sm mt-3">Descripción</ThemedText>
         <TextInput
-          className="border p-2 rounded bg-gray-100 h-24 text-start"
+          className="border p-2 rounded text-light-text bg-light-defaultBeerCard dark:bg-dark-defaultBeerCard dark:text-dark-text h-24 text-start"
           multiline
           value={form.description}
           onChangeText={(text) => handleChange('description', text)}
         />
 
-        <Text className="text-sm mt-3">Valoración cervecera</Text>
-        <View className="h-20 items-center border rounded bg-gray-100 px-4 justify-center">
-          <Text className="mb-2 text-xl font-bold text-gray-700">{value}/5</Text>
+        <ThemedText className="text-sm mt-3">Valoración cervecera</ThemedText>
+        <View className="h-20 items-center border rounded px-4 justify-center bg-light-defaultBeerCard dark:bg-dark-defaultBeerCard">
+          <Text className="mb-2 text-xl font-bold text-light-text dark:text-dark-text">{value}/5</Text>
           <Slider
             style={{ width: '100%', height: 40 }}
             minimumValue={0}
@@ -156,11 +147,11 @@ const NewBeers = () => {
         </View>
 
         <TouchableOpacity
-          className="mt-6 p-4 bg-gray-200 active:opacity-80 rounded items-center"
+          className="mt-6 p-4 bg-light-primary dark:bg-dark-primary active:opacity-80 rounded items-center"
           onPress={pickImageHandler}
         >
-          <Ionicons name="image-outline" size={24} color="black" />
-          <Text>Seleccionar imagen (opcional)</Text>
+          <Ionicons name="image-outline" size={24} color='white' />
+          <Text className='text-white'>Seleccionar imagen</Text>
         </TouchableOpacity>
         {form.imageUrl ? (
           <Image
@@ -171,7 +162,7 @@ const NewBeers = () => {
         ) : null}
 
         <TouchableOpacity
-          className="mt-6 bg-black active:opacity-80 p-4 rounded items-center"
+          className="mt-6 bg-light-primary dark:bg-dark-primary active:opacity-80 p-4 rounded items-center"
           onPress={handleSubmit}
         >
           <Text className="text-white font-bold">Guardar cerveza</Text>

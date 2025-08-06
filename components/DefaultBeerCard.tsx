@@ -1,11 +1,16 @@
+import { useThemeColor } from "@/hooks/useColorScheme";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import ThemedText from "./presentation/ThemedText";
 
-export const DefaultBeerCard = () => (
-    <View className="w-36 h-44 m-4 justify-center overflow-hidden rounded-xl items-center bg-gray-200 shadow-sm">
-        <Ionicons name="beer-outline" size={64} color="#9ca3af" />
-        <Text className="mt-2 text-base text-gray-500 font-medium">
-            Agrega una cerveza
-        </Text>
-    </View>
-);
+export const DefaultBeerCard = () => {
+    const { isDarkText } = useThemeColor();
+    return (
+        <View className="h-44 m-4 justify-center overflow-hidden rounded-xl items-center bg-light-defaultBeerCard dark:bg-dark-defaultBeerCard shadow-sm">
+            <Ionicons name="beer-outline" size={64} color={isDarkText} />
+            <ThemedText className="mt-2 text-base px-2 font-medium">
+                Agrega una cerveza
+            </ThemedText>
+        </View>
+    );
+};

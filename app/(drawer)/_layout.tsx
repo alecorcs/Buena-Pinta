@@ -1,7 +1,12 @@
 import CustomDrawer from '@/components/CustomDrawer';
+import { useThemeColor } from '@/hooks/useColorScheme';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Drawer } from 'expo-router/drawer';
 const DrawerLayout = () => {
+
+
+    const { isDarkView, isDarkText, isDarkActiveDrawer } = useThemeColor();
+
     return (
         <Drawer
             drawerContent={CustomDrawer}
@@ -10,12 +15,13 @@ const DrawerLayout = () => {
                 headerShadowVisible: false,
                 headerTitleAlign: 'center',
                 sceneStyle: {
-                    backgroundColor: 'white',
+                    backgroundColor: isDarkView
                 },
-                drawerActiveTintColor: 'indigo',
-                drawerInactiveTintColor: '#000',
+                drawerActiveTintColor: isDarkActiveDrawer,
+                drawerInactiveTintColor: isDarkText,
                 drawerStyle: {
                     width: 255,
+                    backgroundColor: isDarkView,
                 },
             }}>
             <Drawer.Screen
@@ -63,6 +69,7 @@ const DrawerLayout = () => {
             <Drawer.Screen
                 name="beers/newBeers"
                 options={{
+                    headerShown: false,
                     drawerLabel: () => null,
                     title: 'Nueva Cerveza',
                     drawerItemStyle: { height: 0 }
@@ -71,6 +78,7 @@ const DrawerLayout = () => {
             <Drawer.Screen
                 name="list/newList"
                 options={{
+                    headerShown: false,
                     drawerLabel: () => null,
                     title: 'Nueva Lista',
                     drawerItemStyle: { height: 0 }
@@ -86,6 +94,7 @@ const DrawerLayout = () => {
             <Drawer.Screen
                 name="user/editProfile"
                 options={{
+                    headerShown: false,
                     drawerLabel: () => null,
                     title: 'Editar Perfil',
                     drawerItemStyle: { height: 0 }
