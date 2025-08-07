@@ -1,6 +1,6 @@
 import { FloatButton } from '@/components/Floatbuttom';
 import Lists from '@/components/Lists';
-import { Search } from '@/components/Search';
+import { Search } from '@/components/presentation/Search';
 import { BeerList } from '@/constants/type';
 import { fetchListsByUser } from '@/db/beerAppDB';
 import { useThemeColor } from '@/hooks/useColorScheme';

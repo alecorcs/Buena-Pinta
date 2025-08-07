@@ -1,4 +1,4 @@
-import { Search } from '@/components/Search';
+import { Search } from '@/components/presentation/Search';
 import ShowBeersScreen from '@/components/ShowBeers';
 import { Beer, BeerList } from '@/constants/type';
 import { fetchList } from '@/db/beerAppDB';
@@ -102,7 +102,7 @@ const ListSelectedScreen = () => {
                 options={{
                     headerLeft: () => (
                         <TouchableWithoutFeedback onPress={() => router.navigate('/(drawer)/list')}>
-                            <Ionicons className='ml-4 active:opacity-40' name="chevron-back-outline" size={24} color={isDarkIcon}/>
+                            <Ionicons className='ml-4 active:opacity-40' name="chevron-back-outline" size={24} color={isDarkIcon} />
                         </TouchableWithoutFeedback>
                     ),
                     headerRight,

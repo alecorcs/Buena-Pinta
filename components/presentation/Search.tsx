@@ -2,7 +2,7 @@ import { useThemeColor } from '@/hooks/useColorScheme';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
-import ThemedText from './presentation/ThemedText';
+import ThemedText from './ThemedText';
 
 type SearchProps = {
     iconName?: React.ComponentProps<typeof Ionicons>['name'];

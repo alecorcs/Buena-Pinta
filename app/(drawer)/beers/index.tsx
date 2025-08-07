@@ -1,5 +1,5 @@
 import { FloatButton } from '@/components/Floatbuttom';
-import { Search } from '@/components/Search';
+import { Search } from '@/components/presentation/Search';
 import ShowBeersScreen from '@/components/ShowBeers';
 import { Beer } from '@/constants/type';
 import { fetchBeersByUser } from '@/db/beerAppDB';
