@@ -1,3 +1,4 @@
+import LoadScreen from '@/components/presentation/LoadScreen';
 import { Search } from '@/components/presentation/Search';
 import ShowBeersScreen from '@/components/ShowBeers';
 import { Beer, BeerList } from '@/constants/type';
@@ -6,9 +7,8 @@ import { useThemeColor } from '@/hooks/useColorScheme';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import Drawer from 'expo-router/drawer';
-import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { NativeScrollEvent, NativeSyntheticEvent, SafeAreaView, TouchableWithoutFeedback, View } from 'react-native';
+import { NativeScrollEvent, NativeSyntheticEvent, SafeAreaView, TouchableWithoutFeedback } from 'react-native';
 
 const ListSelectedScreen = () => {
     const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
@@ -113,14 +113,7 @@ const ListSelectedScreen = () => {
 
                 }} />
             {isLoading ? (
-                <View className="flex-1 items-center justify-center">
-                    <LottieView
-                        source={require('@/assets/animation/loading-beer.json')}
-                        loop
-                        autoPlay
-                        style={{ width: 200, height: 200 }}
-                    />
-                </View>
+                <LoadScreen />
             ) : (
                 <>
                     <ShowBeersScreen showList={beers} isRefreshing={isRefreshing} onScroll={onScroll} refresh={refreshList} />

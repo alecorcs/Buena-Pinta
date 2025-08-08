@@ -1,14 +1,14 @@
 import { FloatButton } from '@/components/Floatbuttom';
 import Lists from '@/components/Lists';
+import LoadScreen from '@/components/presentation/LoadScreen';
 import { Search } from '@/components/presentation/Search';
 import { BeerList } from '@/constants/type';
 import { fetchListsByUser } from '@/db/beerAppDB';
 import { useThemeColor } from '@/hooks/useColorScheme';
 import { router, useFocusEffect } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
-import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { FlatList, NativeScrollEvent, NativeSyntheticEvent, SafeAreaView, View } from 'react-native';
+import { FlatList, NativeScrollEvent, NativeSyntheticEvent, SafeAreaView } from 'react-native';
 
 const ListScreen = () => {
     const [searchQuery, setSearchQuery] = useState<string>('');
@@ -79,14 +79,7 @@ const ListScreen = () => {
                 }}
             />
             {isLoading ? (
-                <View className="flex-1 items-center justify-center">
-                    <LottieView
-                        source={require('@/assets/animation/loading-beer.json')}
-                        loop
-                        autoPlay
-                        style={{ width: 200, height: 200 }}
-                    />
-                </View>
+                <LoadScreen />
             ) : (
                 <>
                     <FlatList

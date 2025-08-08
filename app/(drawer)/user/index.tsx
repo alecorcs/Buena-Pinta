@@ -1,4 +1,5 @@
 import ModalDeveloper from '@/components/ModalDeveloper'
+import LoadScreen from '@/components/presentation/LoadScreen'
 import { User } from '@/constants/type'
 import { fetchBeersByUser, fetchListsByUser, fetchUser } from '@/db/beerAppDB'
 import { useThemeColor } from '@/hooks/useColorScheme'
@@ -6,7 +7,6 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import { router, useFocusEffect } from 'expo-router'
 import Drawer from 'expo-router/drawer'
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
-import LottieView from 'lottie-react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 const ProfileScreen = () => {
@@ -81,14 +81,7 @@ const ProfileScreen = () => {
                 }}
             />
             {isLoading ? (
-                <View className="flex-1 items-center justify-center">
-                    <LottieView
-                        source={require('@/assets/animation/loading-beer.json')}
-                        loop
-                        autoPlay
-                        style={{ width: 200, height: 200 }}
-                    />
-                </View>
+                <LoadScreen />
             ) : (
                 <>
                     <View className='flex-1'>

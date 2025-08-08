@@ -7,9 +7,9 @@ import { useThemeColor } from '@/hooks/useColorScheme';
 import { router, useFocusEffect } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { NativeScrollEvent, NativeSyntheticEvent, SafeAreaView, View } from 'react-native';
+import { NativeScrollEvent, NativeSyntheticEvent, SafeAreaView } from 'react-native';
 
-import LottieView from 'lottie-react-native';
+import LoadScreen from '@/components/presentation/LoadScreen';
 
 const BeersScreen = () => {
     const [beers, setBeers] = useState<Beer[] | null>(null);
@@ -84,14 +84,7 @@ const BeersScreen = () => {
             />
             <SafeAreaView className="flex-1">
                 {isLoading ? (
-                    <View className="flex-1 items-center justify-center bg-light-background dark:bg-dark-background">
-                        <LottieView
-                            source={require('@/assets/animation/loading-beer.json')}
-                            loop
-                            autoPlay
-                            style={{ width: 200, height: 200 }}
-                        />
-                    </View>
+                    <LoadScreen />
                 ) : (
                     <>
                         <ShowBeersScreen showList={beers} isRefreshing={isRefreshing} onScroll={onScroll} refresh={refreshBeers} />

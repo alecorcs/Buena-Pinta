@@ -1,12 +1,11 @@
 
 import BeerDescription from '@/components/beer/BeerDescription';
 import BeerHeader from '@/components/beer/BeerHeader';
+import LoadScreen from '@/components/presentation/LoadScreen';
 import { Beer } from '@/constants/type';
 import { fetchBeer } from '@/db/beerAppDB';
 import { useFocusEffect, useLocalSearchParams } from 'expo-router';
-import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const beerCache: { [id: string]: Beer } = {};
@@ -55,14 +54,7 @@ const BeerSelectedScreen = () => {
 
     if (isLoading || !beer) {
         return (
-            <View className="flex-1 items-center justify-center">
-                <LottieView
-                    source={require('@/assets/animation/loading-beer.json')}
-                    loop
-                    autoPlay
-                    style={{ width: 200, height: 200 }}
-                />
-            </View>
+            <LoadScreen />
         )
     };
 
