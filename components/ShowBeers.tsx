@@ -1,17 +1,19 @@
-import { Beer } from '@/constants/type'
+import { Beer, BeerList } from '@/constants/type'
 import React from 'react'
 import { FlatList, NativeScrollEvent, NativeSyntheticEvent, useWindowDimensions } from 'react-native'
 import { BeerCard } from './BeerCard'
 
 type showBeerProps = {
     showList: Beer[] | null,
+    list?: BeerList
     isRefreshing: boolean,
+    screen: "listScreen" | "beerScreen"
     onScroll: (e: NativeSyntheticEvent<NativeScrollEvent>) => void,
     refresh: () => Promise<void>,
 }
 
 
-const ShowBeersScreen = ({ showList, isRefreshing, onScroll, refresh }: showBeerProps) => {
+const ShowBeersScreen = ({ showList, isRefreshing, onScroll, refresh, screen, list }: showBeerProps) => {
     const { width } = useWindowDimensions();
 
     const getNumColumns = () => {
@@ -27,7 +29,8 @@ const ShowBeersScreen = ({ showList, isRefreshing, onScroll, refresh }: showBeer
                 renderItem={({ item }) => (
                     <BeerCard
                         beer={item}
-                        screen="beerScreen"
+                        list={list}
+                        screen={screen}
                         cardWidth={(width - 32) / getNumColumns() - 8}
                     />
                 )}

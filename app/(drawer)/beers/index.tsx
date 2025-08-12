@@ -87,7 +87,7 @@ const BeersScreen = () => {
                     <LoadScreen />
                 ) : (
                     <>
-                        <ShowBeersScreen showList={beers} isRefreshing={isRefreshing} onScroll={onScroll} refresh={refreshBeers} />
+                        <ShowBeersScreen showList={beers} isRefreshing={isRefreshing} onScroll={onScroll} refresh={refreshBeers} screen={'beerScreen'} />
 
                         <FloatButton onPress={() => {
                             router.push('./beers/newBeers');

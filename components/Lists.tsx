@@ -35,7 +35,9 @@ const Lists = ({ list }: listProps) => {
                         renderItem={
                             ({ item }: { item: Beer }) => (
                                 <BeerCard
+                                    key={item.id}
                                     beer={item}
+                                    list={list}
                                     screen="listScreen"
                                     cardWidth={(width - 32) / getNumColumns() - 8}
                                 />)}

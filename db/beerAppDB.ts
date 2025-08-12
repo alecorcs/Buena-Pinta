@@ -308,8 +308,70 @@ export const deleteBeer = async (beerId: string): Promise<void> => {
     if (!user) {
         return;
     }
-    const beerDoc = doc(db, "beers", beerId);
-    await deleteDoc(beerDoc);
+
+    const beerRef = doc(db, "beers", beerId);
+    const beerSnap = await getDoc(beerRef);
+    if (!beerSnap.exists()) {
+        console.error("Beer not found");
+        return;
+    }
+    if (beerSnap.data().userId !== user.uid) {
+        console.error("User does not have permission to delete this beer");
+        return;
+    }
+    await deleteDoc(beerRef);
+
+    return Promise.resolve();
+}
+
+/**
+ * Deletes a list from the Firestore database.
+ * @param {string} listId - The ID of the list to be deleted.
+ * @returns {Promise<void>} A promise that resolves when the list is deleted.
+ */
+
+export const deleteList = async (listId: string): Promise<void> => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) {
+        return;
+    }
+
+    const listRef = doc(db, "lists", listId);
+    const listSnap = await getDoc(listRef);
+    if (!listSnap.exists()) {
+        console.error("List not found");
+        return;
+    }
+    if (listSnap.data().userId !== user.uid) {
+        console.error("User does not have permission to delete this list");
+        return;
+    }
+    await deleteDoc(listRef);
+
+    return Promise.resolve();   
+};
+
+export const deleteBeerFromList = async (listId: string, beerId: string): Promise<void> => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) {
+        return;
+    }
+
+    const listRef = doc(db, "lists", listId);
+    const listSnap = await getDoc(listRef);
+    if (!listSnap.exists()) {
+        console.error("List not found");
+        return;
+    }
+    if (listSnap.data().userId !== user.uid) {
+        console.error("User does not have permission to delete this beer from the list");
+        return;
+    }
+
+    const updatedBeers = listSnap.data().beers.filter((beer: Beer) => beer.id !== beerId);
+    await updateDoc(listRef, { beers: updatedBeers });
 
     return Promise.resolve();
 }

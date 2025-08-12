@@ -114,9 +114,9 @@ const ListSelectedScreen = () => {
                 }} />
             {isLoading ? (
                 <LoadScreen />
-            ) : (
+            ) : list && (
                 <>
-                    <ShowBeersScreen showList={beers} isRefreshing={isRefreshing} onScroll={onScroll} refresh={refreshList} />
+                    <ShowBeersScreen showList={beers} list={list} isRefreshing={isRefreshing} onScroll={onScroll} refresh={refreshList} screen="listScreen" />
                 </>
             )}
 
