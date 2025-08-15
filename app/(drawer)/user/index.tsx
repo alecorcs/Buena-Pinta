@@ -135,7 +135,7 @@ const ProfileScreen = () => {
                                 onPress={() => signOut(auth)}
                                 className="bg-light-primary dark:bg-dark-primary flex-row items-center justify-center px-4 h-10 rounded-2xl mt-6 shadow-md active:opacity-70"
                             >
-                                <Text className="text-light-text dark:text-dark-text text-base font-medium">Cerrar sesión</Text>
+                                <Text className="text-dark-text text-base font-medium">Cerrar sesión</Text>
                             </TouchableOpacity>
                         </View>
                     </View >
