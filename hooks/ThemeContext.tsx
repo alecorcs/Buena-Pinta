@@ -25,7 +25,6 @@ export const ThemeProviderCustom = ({ children }: { children: React.ReactNode })
         setTheme(storedTheme);
         setColorScheme(storedTheme);
       } else {
-        // Si no hay tema guardado, usamos el del sistema
         setTheme(colorScheme as Theme);
       }
     };
@@ -33,7 +32,6 @@ export const ThemeProviderCustom = ({ children }: { children: React.ReactNode })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 🔹 Guardar el tema cada vez que cambia
   useEffect(() => {
     AsyncStorage.setItem("app-theme", theme);
   }, [theme]);
