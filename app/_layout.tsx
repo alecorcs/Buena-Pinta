@@ -1,15 +1,15 @@
 
+import { ThemeProviderCustom, useThemeContext } from '@/hooks/ThemeContext';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Slot } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import 'react-native-reanimated';
 import "../global.css"; // Import global styles
-import { useColorScheme } from '@/hooks/useColorScheme';
 
-export default function RootLayout() {
+function LayoutContent() {
 
-  const colorScheme = useColorScheme();
+  const { theme } = useThemeContext();
 
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
@@ -22,9 +22,17 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView className='flex-1 bg-light-background dark:bg-dark-background'>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <ThemeProvider value={theme === 'dark' ? DarkTheme : DefaultTheme}>
         <Slot />
       </ThemeProvider>
     </GestureHandlerRootView>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <ThemeProviderCustom>
+      <LayoutContent />
+    </ThemeProviderCustom>
   );
 }

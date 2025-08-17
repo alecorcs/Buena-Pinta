@@ -4,9 +4,9 @@ import { View, ViewProps } from 'react-native';
 interface Props extends ViewProps {
     className?: string;
 }
-const ThemedView = ({ className, style, children}: Props) => {
+const ThemedView = ({ className, style, children }: Props) => {
     return (
-        <View className= {`${className} bg-light-background dark:bg-dark-background`} style={style}>
+        <View className={`bg-light-background dark:bg-dark-background ${className}`} style={style}>
             {children}
         </View>
     )

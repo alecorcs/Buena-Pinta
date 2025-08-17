@@ -1,4 +1,4 @@
-import { useThemeColor } from '@/hooks/useColorScheme';
+import { useThemeColor } from '@/hooks/useThemeColor';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';

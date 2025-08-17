@@ -1,6 +1,6 @@
 import { Beer, BeerList } from '@/constants/type';
 import { fetchListsByUser, updateList } from '@/db/beerAppDB';
-import { useThemeColor } from '@/hooks/useColorScheme';
+import { useThemeColor } from '@/hooks/useThemeColor';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useEffect, useState } from 'react';
 import { FlatList, Modal, Text, TouchableOpacity, View } from 'react-native';
