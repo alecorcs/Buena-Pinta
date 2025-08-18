@@ -6,7 +6,7 @@ interface Props extends TextProps {
 }
 const ThemedText = ({ className, style, children }: Props) => {
     return (
-        <Text className={`${className} text-light-text dark:text-dark-text`} style={style}>
+        <Text className={`text-light-text dark:text-dark-text ${className}`} style={style}>
             {children}
         </Text>
     )

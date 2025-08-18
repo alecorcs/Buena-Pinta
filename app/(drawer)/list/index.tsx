@@ -4,7 +4,7 @@ import LoadScreen from '@/components/presentation/LoadScreen';
 import { Search } from '@/components/presentation/Search';
 import { BeerList } from '@/constants/type';
 import { fetchListsByUser } from '@/db/beerAppDB';
-import { useThemeColor } from '@/hooks/useColorScheme';
+import { useThemeColor } from '@/hooks/useThemeColor';
 import { router, useFocusEffect } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
 import React, { useCallback, useEffect, useRef, useState } from 'react';

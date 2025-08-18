@@ -1,3 +1,4 @@
+import SplashScreen from '@/components/presentation/SplashScreen';
 import { addUser } from '@/db/beerAppDB';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -10,12 +11,16 @@ import { auth } from '../FirebaseConfig';
 const SessionScreen = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(true);
+
 
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         router.replace('./beers');
+      } else {
+        setLoading(false);
       }
     });
     return () => unsubscribe();
@@ -56,6 +61,10 @@ const SessionScreen = () => {
       console.error("Registration error:", error);
       alert("Registration failed. Please try again.");
     }
+  }
+
+  if (loading) {
+    return <SplashScreen />
   }
   return (
     <LinearGradient

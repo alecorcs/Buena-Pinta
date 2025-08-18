@@ -1,14 +1,20 @@
 import ModalDeveloper from '@/components/ModalDeveloper'
 import LoadScreen from '@/components/presentation/LoadScreen'
+import ThemedCard from '@/components/presentation/ThemedCard'
+import ThemedSwitch from '@/components/presentation/ThemedSwitch'
+import ThemedView from '@/components/presentation/ThemedView'
 import { User } from '@/constants/type'
 import { fetchBeersByUser, fetchListsByUser, fetchUser } from '@/db/beerAppDB'
-import { useThemeColor } from '@/hooks/useColorScheme'
+import { useThemeColor } from '@/hooks/useThemeColor'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { router, useFocusEffect } from 'expo-router'
 import Drawer from 'expo-router/drawer'
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
+
+import { useThemeContext } from "@/hooks/ThemeContext"
+
 const ProfileScreen = () => {
     const [user, setUser] = useState<User | null>(null)
 
@@ -19,6 +25,8 @@ const ProfileScreen = () => {
     const [isLoading, setLoading] = useState<boolean>(false)
 
     const { isDarkIcon, isDarkView } = useThemeColor();
+
+    const { theme, toggleTheme } = useThemeContext();
 
     const auth = getAuth();
     const userLog = auth.currentUser
@@ -84,7 +92,7 @@ const ProfileScreen = () => {
                 <LoadScreen />
             ) : (
                 <>
-                    <View className='flex-1'>
+                    <ThemedView className='flex-1'>
                         <View className='relative w-full h-48'>
                             <Image
                                 className='w-full h-full'
@@ -130,15 +138,25 @@ const ProfileScreen = () => {
                                 <Text className="text-xl font-semibold text-light-primary dark:text-dark-primary">{totalList}</Text>
                             </View>
                         </View >
+                        <ThemedView className='mt-2 mx-2'>
+                            <ThemedCard>
+                                <ThemedSwitch
+                                    text='DarkMode'
+                                    value={theme === 'dark'}
+                                    onValueChange={toggleTheme}
+
+                                />
+                            </ThemedCard>
+                        </ThemedView>
                         <View className="flex-1 bg-light-background dark:bg-dark-background items-center">
                             <TouchableOpacity
                                 onPress={() => signOut(auth)}
                                 className="bg-light-primary dark:bg-dark-primary flex-row items-center justify-center px-4 h-10 rounded-2xl mt-6 shadow-md active:opacity-70"
                             >
-                                <Text className="text-light-text dark:text-dark-text text-base font-medium">Cerrar sesión</Text>
+                                <Text className="text-dark-text text-base font-medium">Cerrar sesión</Text>
                             </TouchableOpacity>
                         </View>
-                    </View >
+                    </ThemedView >
 
 
                     <ModalDeveloper

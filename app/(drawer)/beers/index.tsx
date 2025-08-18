@@ -3,7 +3,7 @@ import { Search } from '@/components/presentation/Search';
 import ShowBeersScreen from '@/components/ShowBeers';
 import { Beer } from '@/constants/type';
 import { fetchBeersByUser } from '@/db/beerAppDB';
-import { useThemeColor } from '@/hooks/useColorScheme';
+import { useThemeColor } from '@/hooks/useThemeColor';
 import { router, useFocusEffect } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
