@@ -6,6 +6,7 @@ const config: ExpoConfig = {
   version: '1.0.0',
   orientation: 'portrait',
   scheme: 'buena-pinta',
+  owner: "alexcorral",
   userInterfaceStyle: 'automatic',
   newArchEnabled: true,
   ios: {
@@ -14,7 +15,7 @@ const config: ExpoConfig = {
       dark: "./assets/icons/ios-dark.png",
       light: "./assets/icons/ios-light.png",
       tinted: "./assets/icons/ios-tinted.png",
-    }
+    },
   },
   android: {
     edgeToEdgeEnabled: true,
@@ -22,7 +23,8 @@ const config: ExpoConfig = {
       foregroundImage: "./assets/icons/adaptive-icon.png",
       monochromeImage: "./assets/icons/adaptive-icon.png",
       backgroundColor: "#ffffff",
-    }
+    },
+    package: "com.lexcor.buenapinta",
   },
   web: {
     bundler: 'metro',
@@ -33,12 +35,12 @@ const config: ExpoConfig = {
     [
       "expo-splash-screen",
       {
-        image: "./assets/icons/splash-icon-dark.png",
+        image: "./assets/icons/splash-icon-light.png",
         imageWidth: 200,
         resizeMode: "contain",
         bacgroundColor: "#ffffff",
         dark: {
-          image: "./assets/icos/splash-icon-light.png",
+          image: "./assets/icons/splash-icon-dark.png",
           backgroundColor: "#000000"
         },
       },
@@ -47,6 +49,11 @@ const config: ExpoConfig = {
   experiments: {
     typedRoutes: true,
   },
+  extra: {
+    eas: {
+      projectId: "081c024d-ea5d-4db3-a267-5a70d985fc00"
+    }
+  }
 };
 
 export default config;
