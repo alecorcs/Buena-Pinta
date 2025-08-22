@@ -82,7 +82,7 @@ const BeersScreen = () => {
                     },
                 }}
             />
-            <SafeAreaView className="flex-1">
+            <SafeAreaView className="flex-1 mb-10">
                 {isLoading ? (
                     <LoadScreen />
                 ) : (

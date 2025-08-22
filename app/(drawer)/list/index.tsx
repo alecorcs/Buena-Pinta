@@ -93,6 +93,7 @@ const ListScreen = () => {
                         onScroll={onScroll}
                         onRefresh={refreshLists}
                         refreshing={isRefreshing}
+                        className='mb-10'
                     />
                     <FloatButton onPress={() => {
                         router.push('./list/newList');
