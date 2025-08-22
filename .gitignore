@@ -40,3 +40,6 @@ app-example
 
 # Firebase
 .env
+
+#Android
+android
