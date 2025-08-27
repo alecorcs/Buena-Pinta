@@ -1,11 +1,12 @@
 
 import BeerDescription from '@/components/beer/BeerDescription';
 import BeerHeader from '@/components/beer/BeerHeader';
-import LoadScreen from '@/components/presentation/LoadScreen';
 import { Beer } from '@/constants/type';
 import { fetchBeer } from '@/db/beerAppDB';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect, useLocalSearchParams } from 'expo-router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { ActivityIndicator } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const beerCache: { [id: string]: Beer } = {};
@@ -34,7 +35,7 @@ const BeerSelectedScreen = () => {
     useEffect(() => {
         const loadData = async () => {
             setLoading(true);
-            const waitMinimum = new Promise((resolve) => setTimeout(resolve, 2000));
+            const waitMinimum = new Promise((resolve) => setTimeout(resolve, 600));
             const beersPromise = loadBeer();
             await Promise.all([waitMinimum, beersPromise]);
             setLoading(false);
@@ -54,7 +55,15 @@ const BeerSelectedScreen = () => {
 
     if (isLoading || !beer) {
         return (
-            <LoadScreen />
+            <LinearGradient
+                colors={['#FFD700', '#FFA500']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                className='flex-1 w-full h-full justify-center items-center'
+            >
+                <ActivityIndicator size={'large'} color={'#fff'} />
+            </LinearGradient>
+
         )
     };
 
