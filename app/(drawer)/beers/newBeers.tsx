@@ -11,6 +11,8 @@ import React, { useState } from 'react';
 import {
   Alert,
   Image,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   Text,
   TextInput,
@@ -22,6 +24,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 //const ratings = [1, 2, 3, 4, 5];
+
+const isIOS = Platform.OS === 'ios';
 
 const NewBeers = () => {
 
@@ -78,6 +82,9 @@ const NewBeers = () => {
   };
 
   return (
+    <KeyboardAvoidingView
+      behavior={isIOS ? 'height' : undefined}
+    >
     <SafeAreaView className="flex-1 p-4">
       <ScrollView showsVerticalScrollIndicator={false}>
         <Headers onPress={() => router.back()} title= 'Nueva cerveza' />
@@ -169,6 +176,7 @@ const NewBeers = () => {
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 

@@ -3,7 +3,7 @@ import Lists from '@/components/Lists';
 import LoadScreen from '@/components/presentation/LoadScreen';
 import { Search } from '@/components/presentation/Search';
 import { BeerList } from '@/constants/type';
-import { fetchListsByUser } from '@/db/beerAppDB';
+import { addList, fetchListsByUser } from '@/db/beerAppDB';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { router, useFocusEffect } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
@@ -31,6 +31,22 @@ const ListScreen = () => {
         setLists(result);
     }, [searchQuery]);
 
+    const fetchFavouriteList = useCallback(async () => {
+            const favouriteList = lists?.find(list => list.name === 'Favoritas')
+            // If no favourite list exists, create one
+            if(!favouriteList){
+                const favList: BeerList = {
+                    id: '',
+                    userId: '',
+                    name: 'Favoritas',
+                    beers: []
+                }
+                addList(favList);
+                await loadLists();
+            }
+
+        }, [lists, loadLists])
+
     const refreshLists = useCallback(async () => {
         setIsRefreshing(true);
         await loadLists();
@@ -41,12 +57,13 @@ const ListScreen = () => {
         const loadData = async () => {
             setLoading(true);
             const waitMinimum = new Promise((resolve) => setTimeout(resolve, 2000));
-            const listsPromise = loadLists();
-            await Promise.all([waitMinimum, listsPromise]);
+            const listsPromise = await loadLists();
+            const favPromise = await fetchFavouriteList();
+            await Promise.all([waitMinimum, listsPromise, favPromise]);
             setLoading(false);
         }
         loadData();
-    }, [loadLists]);
+    }, [loadLists, fetchFavouriteList]);
 
     useFocusEffect(
         useCallback(() => {
