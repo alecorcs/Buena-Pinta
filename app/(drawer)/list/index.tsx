@@ -32,20 +32,19 @@ const ListScreen = () => {
     }, [searchQuery]);
 
     const fetchFavouriteList = useCallback(async () => {
-            const favouriteList = lists?.find(list => list.name === 'Favoritas')
-            // If no favourite list exists, create one
-            if(!favouriteList){
-                const favList: BeerList = {
-                    id: '',
-                    userId: '',
-                    name: 'Favoritas',
-                    beers: []
-                }
-                addList(favList);
-                await loadLists();
-            }
+        const allLists = await fetchListsByUser('');
+        const favouriteList = allLists.find(list => list.name === 'Favoritas');
 
-        }, [lists, loadLists])
+        if (!favouriteList) {
+            const favList: BeerList = {
+                id: '',
+                userId: '',
+                name: 'Favoritas',
+                beers: []
+            };
+            await addList(favList);
+        }
+    }, []);
 
     const refreshLists = useCallback(async () => {
         setIsRefreshing(true);
@@ -56,10 +55,12 @@ const ListScreen = () => {
     useEffect(() => {
         const loadData = async () => {
             setLoading(true);
+
             const waitMinimum = new Promise((resolve) => setTimeout(resolve, 2000));
-            const listsPromise = await loadLists();
-            const favPromise = await fetchFavouriteList();
-            await Promise.all([waitMinimum, listsPromise, favPromise]);
+
+            await Promise.all([loadLists(), waitMinimum]);
+            await fetchFavouriteList();
+
             setLoading(false);
         }
         loadData();

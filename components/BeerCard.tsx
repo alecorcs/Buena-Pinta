@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { AddToListModal } from './AddToList';
 import CardMenu from './CardMenu';
+import FavoriteOption from './FavoriteOption';
 
 type BeerCardProps = {
   beer: Beer;
@@ -38,6 +39,8 @@ export const BeerCard = ({ beer, screen, cardWidth, list }: BeerCardProps & { ca
             }}
             resizeMode="cover"
           />
+          {/*favourete option */}
+          <FavoriteOption beer={beer} />
 
           {/*options menu */}
           {screen === 'beerScreen' ? (

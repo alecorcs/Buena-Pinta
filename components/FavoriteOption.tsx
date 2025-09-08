@@ -1,37 +1,36 @@
 import { Beer, BeerList } from '@/constants/type'
 import { deleteBeerFromList, fetchListsByUser, updateList } from '@/db/beerAppDB'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 
 type Props = {
     beer: Beer;
 }
 
-const FavoriteOption = ({beer}: Props) => {
+const FavoriteOption = ({ beer }: Props) => {
     const [favList, setFavList] = useState<BeerList>()
 
     const [colorFill, setColorFill] = useState(false)
 
-    const fetchBeerInList = useCallback(async () => {
-        const favouriteList = await fetchListsByUser('Favoritas')
-        setFavList(favouriteList[0])
-        const beersInList = favList?.beers ?? []
-        if(beersInList.some((b) => b.id === beer.id)){
-            setColorFill(true)
-        }
-    }, [beer.id, favList])
-
     useEffect(() => {
+        const fetchBeerInList = async () => {
+            const allLists = await fetchListsByUser('');
+            const favouriteList = allLists.find((list) => list.name === 'Favoritas');
+            if (favouriteList) {
+                setFavList(favouriteList);
+                const beersInList = favouriteList.beers ?? [];
+                setColorFill(beersInList.some((b) => b.id === beer.id));
+            }
+        };
+
         fetchBeerInList();
-    }, [fetchBeerInList])
+    }, [beer.id]);
 
-
-
-    const handleFavouriteList = async(list: BeerList) =>{
-        if(colorFill && favList){
+    const handleFavouriteList = async () => {
+        if (colorFill && favList) {
             console.log("Eliminando de Favoritas");
-            deleteBeerFromList(favList.id, beer.id);
+            await deleteBeerFromList(favList.id, beer.id);
             setColorFill(false);
         } else {
             console.log("Añadiendo a Favoritas");
@@ -44,20 +43,23 @@ const FavoriteOption = ({beer}: Props) => {
         }
     };
 
-  return (
-    <View className='absolute bottom-2 right-2 z-10'>
-        <TouchableOpacity
-            onPress={() => { if (favList) handleFavouriteList(favList) }}
-            disabled={!favList}
-            className="p-1.5 active:opacity-80 bg-black/50">
-            {colorFill ? 
-            <Ionicons name="heart" size={14} color="white" />
-            :
-            <Ionicons name="heart-outline" size={14} color="white" />
-            }
-        </TouchableOpacity>
-    </View>
-  )
+    return (
+        <View className='absolute top-2 left-2 z-10 rounded-full overflow-hidden'>
+            <TouchableOpacity
+                onPress={(e) => {
+                    e.stopPropagation();
+                    handleFavouriteList();
+                }}
+                disabled={!favList}
+                className="p-1.5 active:opacity-80 bg-black/50">
+                {colorFill ?
+                    <Ionicons name="heart" size={14} color="white" />
+                    :
+                    <Ionicons name="heart-outline" size={14} color="white" />
+                }
+            </TouchableOpacity>
+        </View>
+    )
 }
 
 export default FavoriteOption

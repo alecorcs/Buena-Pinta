@@ -19,7 +19,10 @@ const CardMenu = ({ beer, screen, setShowOptions, showOptions, setModalVisible, 
     return (
         <View className="absolute top-2 right-2 z-10">
             <TouchableOpacity
-                onPress={() => setShowOptions(!showOptions)}
+                onPress={(e) => {
+                    e.stopPropagation();
+                    setShowOptions(!showOptions)
+                }}
                 className="p-1.5 rounded-full active:opacity-80 bg-black/50"
             >
                 <Ionicons name="ellipsis-vertical" size={14} color="white" />
@@ -29,7 +32,8 @@ const CardMenu = ({ beer, screen, setShowOptions, showOptions, setModalVisible, 
                     {screen === 'beerScreen' ? (
                         <>
                             <TouchableOpacity
-                                onPress={() => {
+                                onPress={(e) => {
+                                    e.stopPropagation();
                                     setModalVisible(true);
                                     setShowOptions(false);
                                     console.log('Añadir a lista', beer.name);
@@ -40,7 +44,8 @@ const CardMenu = ({ beer, screen, setShowOptions, showOptions, setModalVisible, 
                             </TouchableOpacity>
 
                             <TouchableOpacity
-                                onPress={() => {
+                                onPress={(e) => {
+                                    e.stopPropagation();
                                     setShowOptions(false);
                                     alertDeleteBeer({
                                         name: beer.name,
@@ -54,7 +59,8 @@ const CardMenu = ({ beer, screen, setShowOptions, showOptions, setModalVisible, 
                         </>
                     ) : list && (
                         <TouchableOpacity
-                            onPress={() => {
+                            onPress={(e) => {
+                                e.stopPropagation();
                                 setShowOptions(false);
                                 alertRemoveFromList({
                                     beerName: beer.name,
